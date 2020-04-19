@@ -34,7 +34,7 @@ function SidebarItem({ depthStep = 10, depth = 0, expanded, item, ...rest }) {
   }
 
   return (
-    <div>
+    <>
       <ListItem className="sidebar-item" onClick={onClick} button dense {...rest}>
         <div style={{ paddingLeft: depth * depthStep }} className="sidebar-item-content"> 
           {Icon && <Icon className="sidebar-item-icon" fontSize="small" />}
@@ -47,7 +47,7 @@ function SidebarItem({ depthStep = 10, depth = 0, expanded, item, ...rest }) {
           <List disablePadding dense>
             {items.map((subItem, index) => (
               <React.Fragment key={`${subItem.name}${index}`}>
-                {subItem === "divider" ? (
+                {subItem === "divider" ? ( 
                   <Divider style={{ margin: "6px 0" }} />
                 ) : (
                   <SidebarItem depth={depth + 1} depthStep={depthStep} item={subItem}/>
@@ -57,7 +57,7 @@ function SidebarItem({ depthStep = 10, depth = 0, expanded, item, ...rest }) {
           </List>
         ) : null}
       </Collapse>
-    </div>
+    </>
   );
 }
 
