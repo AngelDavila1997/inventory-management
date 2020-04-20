@@ -9,20 +9,22 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import DesktopWindowsIcon from "@material-ui/icons/DesktopWindows";
 import SettingsIcon from "@material-ui/icons/Settings";
 
-//export function onClick(e, item) {
-  //window.alert(JSON.stringify(item, null, 2));
-//}
+/*
+export function onClick(e, item) {
+  window.alert(JSON.stringify(item, null, 2));
+}
+*/
 
 export const items = [
-  { name: "home", label: "Inicio", Icon: HomeIcon },
+  { name: "home", label: "Inicio", Icon: HomeIcon , to: "/dash"},
   "divider",
   {
     name: "articulo",
     label: "Artículos",
     Icon: EmojiObjectsIcon,
     items: [
-      { name: "addnewarticle", label: "Nuevo Artículo" },
-      { name: "articles", label: "Artículos Disponibles" }
+      { name: "addnewarticle", label: "Nuevo Artículo", to: "/add" },
+      { name: "articles", label: "Artículos Disponibles", to: "/art" }
     ]
   },
   "divider",

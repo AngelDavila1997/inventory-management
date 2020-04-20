@@ -18,7 +18,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
-  },
+  },  
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
