@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ButtonAppBar from './components/ButtonAppBar';
-import Dashboard from './components/Dashboard';
+import Proveedores from './components/Proveedores';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import './App.css';
