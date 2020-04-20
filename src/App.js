@@ -21,6 +21,7 @@ class App extends Component {
         <ButtonAppBar/>
         <Switch>
           <Route path="/dash" component={Dashboard}/>
+          <Route path="/test" component={Tester}/>
         </Switch>
       </div>
     </Router>
@@ -28,5 +29,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;

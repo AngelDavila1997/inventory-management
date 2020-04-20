@@ -29,7 +29,7 @@ class Orders extends Component{
     var temp = []
     if(this.state.rows.length === 0){
       this.state.resp.data.forEach(element => {
-        console.log(element)
+        //console.log(element)
         temp.push(this.createData(element.id, element.career))
       });
     }
