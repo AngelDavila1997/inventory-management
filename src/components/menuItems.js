@@ -72,7 +72,7 @@ export const items = [
     label: "Usuarios",
     Icon: SupervisorAccountIcon ,
     items: [
-      { name: "addnewuser", label: "Nuevo Usuario", to: "/adduser" },
+      { name: "addnewuser", label: "Nuevo Usuario", to: "/addnewuser" },
       { name: "users", label: "Lista de Usuarios", to: "/userlist" },
     ]
   },
