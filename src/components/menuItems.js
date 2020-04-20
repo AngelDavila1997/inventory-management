@@ -9,14 +9,12 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import DesktopWindowsIcon from "@material-ui/icons/DesktopWindows";
 import SettingsIcon from "@material-ui/icons/Settings";
 
-/*
-export function onClick(e, item) {
-  window.alert(JSON.stringify(item, null, 2));
-}
-*/
+//export function onClick(e, item) {
+  //window.alert(JSON.stringify(item, null, 2));
+//}
 
 export const items = [
-  { name: "home", label: "Inicio", Icon: HomeIcon , to: "/dash"},
+  { name: "home", label: "Inicio", Icon: HomeIcon },
   "divider",
   {
     name: "articulo",

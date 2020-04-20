@@ -5,11 +5,10 @@ import Divider from "@material-ui/core/Divider";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import Collapse from "@material-ui/core/Collapse";
-import { Link } from "react-router-dom";
 
 function SidebarItem({ depthStep = 10, depth = 0, expanded, item, ...rest }) {
   const [collapsed, setCollapsed] = React.useState(true);
-  const { label, items, Icon, to, onClick: onClickProp} = item;
+  const { label, items, Icon, onClick: onClickProp } = item;
 
   function toggleCollapse() {
     setCollapsed(prevValue => !prevValue);
@@ -36,7 +35,7 @@ function SidebarItem({ depthStep = 10, depth = 0, expanded, item, ...rest }) {
 
   return (
     <>
-      <ListItem className="sidebar-item" onClick={onClick} component={Link} to={item.to} button dense {...rest}>
+      <ListItem className="sidebar-item" onClick={onClick} button dense {...rest}>
         <div style={{ paddingLeft: depth * depthStep }} className="sidebar-item-content"> 
           {Icon && <Icon className="sidebar-item-icon" fontSize="small" />}
           <div className="sidebar-item-text">{label}</div>
