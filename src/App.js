@@ -21,8 +21,19 @@ class App extends Component {
         <ButtonAppBar/>
         <Switch>
           <Route path="/dash" component={Dashboard}/>
-          <Route path="/test" component={Tester}/>
-           <Route path="/test" component={Tester}/>
+          <Route path="/addarticle" component={Dashboard}/>
+          <Route path="/articles" component={Dashboard}/>
+          <Route path="/addprovider" component={Dashboard}/>
+          <Route path="/providers" component={Dashboard}/>
+          <Route path="/addmovement" component={Dashboard}/>
+          <Route path="/movements" component={Dashboard}/>
+          <Route path="/inventoryvalue" component={Dashboard}/>
+          <Route path="/restock" component={Dashboard}/>
+          <Route path="/inactivity" component={Dashboard}/>
+          <Route path="/articlelist" component={Dashboard}/>
+          <Route path="/movementlist" component={Dashboard}/>
+          <Route path="/addnewuser" component={Dashboard}/>
+          <Route path="/users" component={Dashboard}/>
         </Switch>
       </div>
     </Router>

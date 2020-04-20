@@ -23,8 +23,8 @@ export const items = [
     label: "Artículos",
     Icon: EmojiObjectsIcon,
     items: [
-      { name: "addnewarticle", label: "Nuevo Artículo", to: "/add" },
-      { name: "articles", label: "Artículos Disponibles", to: "/art" }
+      { name: "addnewarticle", label: "Nuevo Artículo", to: "/addarticle" },
+      { name: "articles", label: "Artículos Disponibles", to: "/articles" }
     ]
   },
   "divider",
@@ -33,8 +33,8 @@ export const items = [
     label: "Proveedores",
     Icon: BusinessCenterIcon,
     items: [
-      { name: "addnewprovider", label: "Nuevo Proveedor" },
-      { name: "providers", label: "Proveedores Disponibles" }
+      { name: "addnewprovider", label: "Nuevo Proveedor", to: "/addprovider" },
+      { name: "providers", label: "Proveedores Disponibles", to: "/providers" }
     ]
   },
   "divider",
@@ -43,8 +43,8 @@ export const items = [
     label: "Movimientos",
     Icon: ReceiptIcon,
     items: [
-      { name: "addnewmovement", label: "Nuevo Movimiento" },
-      { name: "movements", label: "Movimientos Realizados" }
+      { name: "addnewmovement", label: "Nuevo Movimiento", to: "/addmovement"},
+      { name: "movements", label: "Movimientos Realizados", to: "/movements" }
     ]
   },
     "divider",
@@ -53,17 +53,17 @@ export const items = [
     label: "Reportes",
     Icon: LibraryBooksIcon,
     items: [
-      { name: "inventoryvalue", label: "Valor Actual del Inventario" },
-      { name: "restock", label: "Resurtir Almacén" },
-      { name: "inactivity", label: "Inactividad de Artículos" },
+      { name: "inventoryvalue", label: "Valor Actual del Inventario", to: "/inventoryvalue" },
+      { name: "restock", label: "Resurtir Almacén", to: "/restock" },
+      { name: "inactivity", label: "Inactividad de Artículos", to: "/inactivity" },
       "divider",
       {
         name: "lists",
         label: "Listados",
         Icon: ListIcon,
         items: [
-          { name: "articlelist", label: "Articulos" },
-          { name: "movementlist", label: "Movimientos" }
+          { name: "articlelist", label: "Articulos", to: "/articlelist" },
+          { name: "movementlist", label: "Movimientos", to: "/movementlist" }
         ]
       }
     ]
@@ -74,7 +74,8 @@ export const items = [
     label: "Usuarios",
     Icon: SupervisorAccountIcon ,
     items: [
-      { name: "addnewuser", label: "Nuevo Usuario" },
+      { name: "addnewuser", label: "Nuevo Usuario", to: "/adduser" },
+      { name: "users", label: "Lista de Usuarios", to: "/userlist" },
     ]
   },
     "divider",
