@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 //import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
+import Orders from './components/Orders';   
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     Array.from(data.entries()).forEach(([key, value]) => {
         json[key] = value;
     })
-    fetch('http://localhost:9000/insert', {  
+    fetch('http://localhost:9000/articulos/insert', {  
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(json),
@@ -108,6 +109,9 @@ const useStyles = makeStyles((theme) => ({
                     </div>
                 </div>
             </div>
+            </Paper>
+            <Paper>
+                <Orders />
             </Paper>
         </Container>
         </main>

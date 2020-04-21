@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,61 +8,89 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-  createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
-];
-
-function preventDefault(event) {
-  event.preventDefault();
-}
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = theme => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
-}));
+});
 
-export default function Orders() {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <Title>Recent Orders</Title>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+
+class Orders extends Component{
+  constructor(props){
+    super(props);
+    this.state = { rows: [] , resp: []};
+  }
+
+  createData(sku, nombre_articulo, descripcion, costo, unidad_medida, fecha_alta, id_usuario, id_proveedor) {
+    return {sku, nombre_articulo, descripcion, costo, unidad_medida, fecha_alta, id_usuario, id_proveedor};
+  }
+
+  fillRows(){
+    var temp = []
+    if(this.state.rows.length === 0){
+      this.state.resp.data.forEach(data => {
+        if(!this.state.rows.includes(data)){
+          console.log(data)
+          temp.push(this.createData(data.sku, data.nombre_articulo, data.descripcion, data.costo, data.unidad_medida, data.fecha_alta, data.id_usuario, data.id_proveedor))
+        }
+      });
+    }
+    this.setState({ rows: temp });
+  }
+
+  preventDefault(event){
+    event.preventDefault();
+  }
+
+  componentDidMount(){
+    fetch("http://localhost:9000/articulos/show")
+          .then(res => res.json())
+          .then(res => this.setState({ resp: res }))
+          .then(() => this.fillRows());
+  }
+
+
+  render(){
+    const {classes} = this.props;
+    return(
+      <React.Fragment>
+        <Title>Inventario Actual</Title>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>SKU</TableCell>
+              <TableCell>Nombre Articulo</TableCell>
+              <TableCell>Descripcion</TableCell>
+              <TableCell>Costo</TableCell>
+              <TableCell>Unidad de Medida</TableCell>
+              <TableCell>Fecha de Alta</TableCell>
+              <TableCell>Creador</TableCell>
+              <TableCell>Proveedor</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
-        </Link>
-      </div>
-    </React.Fragment>
-  );
+          </TableHead>
+          <TableBody>
+            {this.state.rows.map((row) => (
+              <TableRow key={row.sku}>
+                <TableCell>{row.sku}</TableCell>
+                <TableCell>{row.nombre_articulo}</TableCell>
+                <TableCell>{row.descripcion}</TableCell>
+                <TableCell>{row.costo}</TableCell>
+                <TableCell>{row.unidad_medida}</TableCell>
+                <TableCell>{row.fecha_alta}</TableCell>
+                <TableCell>{row.id_usuario}</TableCell>
+                <TableCell>{row.id_proveedor}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <div>
+          <Link color="primary" href="#" onClick={this.preventDefault}>
+            See more orders
+          </Link>
+        </div>
+      </React.Fragment>
+    )
+  }
 }
+ 
+export default withStyles(useStyles)(Orders);
