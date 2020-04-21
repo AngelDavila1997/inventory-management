@@ -1,13 +1,5 @@
 import React from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 import { withStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Deposits from './Deposits';
-import Orders from './Orders';
-import Chart from './Chart';
 
 const useStyles = theme => ({
   seeMore: {

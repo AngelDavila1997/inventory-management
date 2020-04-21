@@ -35,7 +35,7 @@ function SidebarItem({ depthStep = 10, depth = 0, expanded, item, ...rest }) {
 
   return (
     <>
-      <ListItem className="sidebar-item" onClick={onClick} component={Link} to={item.to} button dense {...rest}> 
+      <ListItem className="sidebar-item" onClick={onClick} component={Link} to={item.to ? ( item.to ) : "#"} button dense {...rest}>
         <div style={{ paddingLeft: depth * depthStep }} className="sidebar-item-content"> 
           {Icon && <Icon className="sidebar-item-icon" fontSize="small" />}
           <div className="sidebar-item-text">{label}</div>

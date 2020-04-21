@@ -4,14 +4,13 @@ import Proveedores from './components/Proveedores';
 import NuevoUsuario from './components/NuevoUsuario'; 
 import Articulos from './components/Articulos';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
+import Tester from './Test';
 import './App.css';
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
 } from "react-router-dom";
 
 import Dashboard from './components/Dashboard';
@@ -25,6 +24,7 @@ class App extends Component {
         <CssBaseline />
         <ButtonAppBar/>
         <Switch>
+          <Route path="/test" component={Tester}/>
           <Route path="/dash" component={Dashboard}/>
           <Route path="/addarticle" component={Articulos}/>
           <Route path="/articles" component={Dashboard}/>
