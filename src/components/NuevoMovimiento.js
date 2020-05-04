@@ -14,7 +14,7 @@ const useStyles = theme => ({
     marginTop: theme.spacing(3),
   },
 });
-function NuevoUsuario(){
+function NuevoMovimiento(){
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -39,56 +39,53 @@ function NuevoUsuario(){
                         <div className="card-block">
                             <form className="k-form">
                                 <fieldset>
-                                    <legend>Información del Usuario</legend>
+                                    <legend>Información del Movimiento</legend>
 
                                     <label className="k-form-field">
-                                        <span>Nombre(s)  &nbsp;&nbsp;&nbsp;</span>
-                                        <input className="k-textbox" />
+                                        <span>Tipo de Movimiento &nbsp;&nbsp;&nbsp;</span>
+
+                                        <input type="radio" name="tipo" id="entrada" className="k-radio" />
+                                        <label className="k-radio-label" for="entrada">Entrada&nbsp;&nbsp;&nbsp;</label>
+
+                                        <input type="radio" name="tipo" id="salida" className="k-radio" />
+                                        <label className="k-radio-label" for="salida">Salida </label>
+
+                                    <span>Artículo  &nbsp;&nbsp;&nbsp;</span>
+                                       <select>
+                                      <option value="ejemplo">Ejemplo</option>
+                                      <option value="ejemplo2">Ejemplo 2</option>
+                                      </select>
                                     </label>
                                     <br /><br />
 
                                     <label className="k-form-field">
-                                        <span>Apellidos &nbsp;&nbsp;&nbsp;</span>
-                                        <input className="k-textbox"/>
+                                        <span>Cantidad &nbsp;&nbsp;&nbsp;</span>
+                                        <input type="number" name="cantidad"/>
                                     </label>
-
                                     <br /><br />
-                                    <div className="k-form-field">
-                                        <span>Género &nbsp;&nbsp;&nbsp;</span>
 
-                                        <input type="radio" name="genero" id="mujer" className="k-radio" />
-                                        <label className="k-radio-label" for="mujer">Mujer &nbsp;&nbsp;&nbsp;</label>
-
-                                        <input type="radio" name="genero" id="hombre" className="k-radio" />
-                                        <label className="k-radio-label" for="hombre">Hombre </label>
-                                    </div>
+                                    <label className="k-form-field">
+                                        <span>Fecha &nbsp;&nbsp;&nbsp;</span>
+                                        <input type="date" name="fecha" />
+                                    </label>
                                 </fieldset>
 
                                 <br /><br />
 
                                 <fieldset>
-                                    <legend>Detalles del Usuario</legend>
+                                    <legend>Detalles del Movimiento</legend>
                                     <label className="k-form-field">
-                                        <span>Usuario &nbsp;&nbsp;&nbsp;</span>
-                                        <input className="k-textbox" />
+                                        <span>Persona encargada  &nbsp;&nbsp;&nbsp;</span>
+                                        <input readOnly value="Administrador"/>
                                     </label>
-                                    <label className="k-form-field">
-                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Contraseña &nbsp;&nbsp;&nbsp;</span>
-                                        <input type="password" className="k-textbox"/>
-                                    </label>
-
                                     <br /><br />
 
-                                    <div className="k-form-field">
-                                        <input type="radio" name="tipo" id="admin" className="k-radio" />
-                                        <label className="k-radio-label" for="admin">Administrador &nbsp;&nbsp;&nbsp;</label>
+                                    <span>Descripción  &nbsp;&nbsp;&nbsp;</span>
+                                    <textarea name="descripcion"></textarea>
 
-                                        <input type="radio" name="tipo" id="encargado" className="k-radio" />
-                                        <label className="k-radio-label" for="encargado">Encargado de Almácen &nbsp;&nbsp;&nbsp;</label>
-
-                                        <input type="radio" name="tipo" id="empleado" className="k-radio" />
-                                        <label className="k-radio-label" for="empleado">Empleado de Almácen</label>
-                                    </div>
+                                    <br /><br />
+                                        <span>Número de Movimiento &nbsp;&nbsp;&nbsp;</span>
+                                        <input type="number" name="numMov"/>
                                 </fieldset>
                             </form>
                         </div>
@@ -97,7 +94,7 @@ function NuevoUsuario(){
             </div>
 }
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
-          CREAR USUARIO
+          CREAR Movimiento
         </Button>
         <Dialog
           fullScreen={fullScreen}
@@ -108,7 +105,7 @@ function NuevoUsuario(){
           <DialogTitle id="responsive-dialog-title">ALERTA</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              ¿Estas seguro? Una vez aceptado el usuario no podrán realizarse cambios en este. Verifique su información cuidadosamente.
+              ¿Estas seguro? Una vez aceptado el movimiento no podrán realizarse cambios en este. Verifique su información cuidadosamente.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -124,4 +121,4 @@ function NuevoUsuario(){
     );
 }
 
-export default withStyles(useStyles)(NuevoUsuario);
+export default withStyles(useStyles)(NuevoMovimiento);
