@@ -100,11 +100,10 @@ const useStyles = makeStyles((theme) => ({
                             <FormControlLabel value="lt" control={<Radio />} label="Lt" />
                             <FormControlLabel value="ot" control={<Radio />} label="Otro" />
                           </RadioGroup>
-                       </Grid>
-                       <br />
-                       <Grid item xs={12}>
-                        <Button variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />}> Añadir </Button>
-                        <button>Enviar</button>
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
+                        <Button type="submit" variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />}> Añadir </Button>
                       </Grid>
                   </form>
               </Paper>
