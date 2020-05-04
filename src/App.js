@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ButtonAppBar from './components/ButtonAppBar';
 import AddProvider from './components/AddProvider';
 import NuevoUsuario from './components/NuevoUsuario'; 
+import NuevoMovimiento from './components/NuevoMovimiento'; 
 import AddArticle from './components/AddArticle';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Tester from './Test';
@@ -30,7 +31,7 @@ class App extends Component {
           <Route path="/articles" component={Dashboard}/>
           <Route path="/addprovider" component={AddProvider}/>
           <Route path="/providers" component={Dashboard}/>
-          <Route path="/addmovement" component={Dashboard}/>
+          <Route path="/addmovement" component={NuevoMovimiento}/>
           <Route path="/movements" component={Dashboard}/>
           <Route path="/inventoryvalue" component={Dashboard}/>
           <Route path="/restock" component={Dashboard}/>
