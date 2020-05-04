@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ButtonAppBar from './components/ButtonAppBar';
 import Proveedores from './components/Proveedores';
 import NuevoUsuario from './components/NuevoUsuario'; 
-import Articulos from './components/Articulos';
+import AddArticle from './components/AddArticle';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Tester from './Test';
 import './App.css';
@@ -26,7 +26,7 @@ class App extends Component {
         <Switch>
           <Route path="/test" component={Tester}/>
           <Route path="/dash" component={Dashboard}/>
-          <Route path="/addarticle" component={Articulos}/>
+          <Route path="/addarticle" component={AddArticle}/>
           <Route path="/articles" component={Dashboard}/>
           <Route path="/addprovider" component={Proveedores}/>
           <Route path="/providers" component={Dashboard}/>

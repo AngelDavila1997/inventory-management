@@ -14,7 +14,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 //}
 
 export const items = [
-  { name: "home", label: "Inicio", Icon: HomeIcon },
+  { name: "home", label: "Inicio", Icon: HomeIcon, to:"/dash"},
   "divider",
   {
     name: "articulo",
