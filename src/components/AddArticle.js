@@ -1,7 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 //import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Orders from './Orders';   
 
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
         body: JSON.stringify(json),
     });
   }
-  export default function Dashboard() {
+  export default function AddArticle() {
     const classes = useStyles();
     //const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   
@@ -56,12 +58,13 @@ const useStyles = makeStyles((theme) => ({
                     <div className="card">
                         <div className="card-block">
                             <form onSubmit={handleSubmit} className="k-form">
-                                <fieldset>
-                                    <legend>Información del Artículo</legend>
+                                    <br/ >
+                                    <Typography variant="h6" gutterBottom> Información de artículo </Typography>
+
                                     <input type="hidden" name="id_usuario" value="1"/>
                                     <input type="hidden" name="id_proveedor" value="1"/>
 
-                                    <label className="k-form-field">
+                                    <label>
                                         <span>Nombre  &nbsp;&nbsp;&nbsp;</span>
                                         <input className="textbox" name="nombre_articulo"/>
                                     </label>
@@ -72,25 +75,25 @@ const useStyles = makeStyles((theme) => ({
 
                                     <br /><br />
 
-                                    <label className="k-form-field">
+                                    <label>
                                         <span>SKU &nbsp;&nbsp;&nbsp;</span>
                                         <input type="number" className="k-number" name="sku"/>
                                     </label>
                                     <br /><br />
 
-                                    <label className="k-form-field">
+                                    <label>
                                         <span>Costo &nbsp;&nbsp;$</span>
                                         <input type="number" className="k-number" name="costo"/>
                                     </label>
                                     <br /><br />
 
-                                    <label className="k-form-field">
+                                    <label>
                                         <span>Fecha &nbsp;&nbsp;&nbsp;</span>
                                         <input type="date" className="k-date" name="fecha_alta" />
                                     </label>
                                     <br /><br />
 
-                                    <div className="k-form-field">
+                                    <div>
                                         <input type="radio" name="unidad_medida" id="pieza" className="k-radio" value="Pieza"/>
                                         <label className="k-radio-label" htmlFor="pieza">Pieza &nbsp;&nbsp;&nbsp;</label>
 
@@ -98,10 +101,10 @@ const useStyles = makeStyles((theme) => ({
                                         <label className="k-radio-label" htmlFor="it">It &nbsp;&nbsp;&nbsp;</label>
                                     </div>
                                     
-                                </fieldset>
+                                
 
                                 <br /><br />
-                                <div className="text-right">
+                                <div >
                                 <center><button className="k-button k-primary">Enviar</button></center>
                                 </div>
                             </form>
