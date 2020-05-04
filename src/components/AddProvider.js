@@ -1,11 +1,35 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import SendIcon from '@material-ui/icons/Send';
+import Paper from '@material-ui/core/Paper';
 
-const useStyles = theme => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-});
+const useStyles = makeStyles((theme) => ({
+    appBarSpacer: theme.mixins.toolbar,
+    content: {
+      flexGrow: 1,
+      height: '100vh',
+      overflow: 'auto',
+    },
+    container: {
+      paddingTop: theme.spacing(4),
+      paddingBottom: theme.spacing(4),
+    },
+    paper: {
+      padding: theme.spacing(2),
+      display: 'flex',
+      overflow: 'auto',
+      flexDirection: 'column',
+    },
+    button: {
+    margin: theme.spacing(1),
+    },
+  }));
 
 
 function handleSubmit(event){
@@ -23,46 +47,46 @@ function handleSubmit(event){
   }
 
 
-  export default function Formulario() {
+  export default function AddProvider() {
+    const classes = useStyles();
+
     return (
-        <div className="row example-wrapper">
-        <br /><br />
-        <br /><br />
+        <div className="root">
+        <main>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="xl" className={classes.container}>
+          <Grid container spacing={3}>
+          {/*Formulario*/}
+            <Grid item xs={12}>
+              <Paper elevation={3} className={classes.paper}>
+                  <form onSubmit={handleSubmit}>
+                      <Typography variant="h6" gutterBottom> Información del proveedor </Typography>
 
-            <div className="col-xs-15 col-sm-6 offset-sm-3 example-col">
-                <div className="card">
-                    <div className="card-block">
-                        <form onSubmit={handleSubmit} className="k-form">
-                            <fieldset>
-                                <legend>Información del Proveedor</legend>
+                      <input type="hidden" name="id_usuario" value="1"/>
+                      <input type="hidden" name="id_proveedor" value="1"/>
 
-                                <label className="k-form-field">
-                                    <span>Nombre  &nbsp;&nbsp;&nbsp;</span>
-                                    <input className="k-textbox" name="nombre" />
-                                </label>
-                                <br /><br />
+                      <Grid item xs={12}>
+                        <TextField required id="Nombre" name="nombre" label="Nombre del proveedor"  />
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
+                        <TextField required id="Email" name="correo" label="Email" />
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
+                        <TextField required id="Telefono" type="number" name="telefono" label="Teléfono" InputLabelProps={{shrink: true,}} />
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
+                        <Button type="submit" variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />}> Añadir </Button>
+                      </Grid>
+                  </form>
+              </Paper>
+            </Grid>
+           </Grid>
 
-                                <label className="k-form-field">
-                                    <span>Email  &nbsp;&nbsp;&nbsp;</span>
-                                    <input className="k-textbox" name="correo" />
-                                </label>
-                                <br /><br />
-
-                                <label className="k-form-field">
-                                    <span>Teléfono &nbsp;&nbsp;&nbsp;</span>
-                                    <input type="number" className="k-number" name="telefono" />
-                                </label>
-                                <br /><br />
-                            </fieldset>
-
-                            <br /><br />
-                            <div className="text-right">
-                            <center><button className="k-button k-primary">Enviar</button></center>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </Container>
+        </main>
+      </div>
     );
 }

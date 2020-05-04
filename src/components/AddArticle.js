@@ -32,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
       overflow: 'auto',
       flexDirection: 'column',
     },
-    fixedHeight: {
-    height: 240,
-    },
     button: {
     margin: theme.spacing(1),
     },
@@ -56,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
   }
   export default function AddArticle() {
     const classes = useStyles();
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   
     return (
       <div className="root">
