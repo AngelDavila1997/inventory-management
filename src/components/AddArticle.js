@@ -1,9 +1,17 @@
 import React from 'react';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 //import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import Button from '@material-ui/core/Button';
+import SendIcon from '@material-ui/icons/Send';
 import Paper from '@material-ui/core/Paper';
 import Orders from './Orders';   
 
@@ -25,7 +33,10 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
     },
     fixedHeight: {
-      height: 240,
+    height: 240,
+    },
+    button: {
+    margin: theme.spacing(1),
     },
   }));
   
@@ -45,77 +56,68 @@ const useStyles = makeStyles((theme) => ({
   }
   export default function AddArticle() {
     const classes = useStyles();
-    //const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   
     return (
       <div className="root">
-        <main className={classes.content}>
+        <main>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="xl" className={classes.container}>
-            <Paper>
-            <div className="row example-wrapper">
-                <div className="col-xs-15 col-sm-6 offset-sm-3 example-col">
-                    <div className="card">
-                        <div className="card-block">
-                            <form onSubmit={handleSubmit} className="k-form">
-                                    <br/ >
-                                    <Typography variant="h6" gutterBottom> Información de artículo </Typography>
+          <Grid container spacing={3}>
+          {/*Formulario*/}
+            <Grid item xs={12}>
+              <Paper elevation={3} className={classes.paper}>
+                  <form onSubmit={handleSubmit}>
+                      <Typography variant="h6" gutterBottom> Información de artículo </Typography>
 
-                                    <input type="hidden" name="id_usuario" value="1"/>
-                                    <input type="hidden" name="id_proveedor" value="1"/>
+                      <input type="hidden" name="id_usuario" value="1"/>
+                      <input type="hidden" name="id_proveedor" value="1"/>
 
-                                    <label>
-                                        <span>Nombre  &nbsp;&nbsp;&nbsp;</span>
-                                        <input className="textbox" name="nombre_articulo"/>
-                                    </label>
-                                    <br /><br />
+                      <Grid item xs={12}>
+                        <TextField required id="Nombre" name="nombre_articulo" label="Nombre de articulo"  />
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
+                        <TextField id="Descripción" name="descripcion" label="Descripción" fullWidth  />
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
+                        <TextField required id="SKU" name="sku" label="SKU"  />
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
+                        <TextField required id="Costo" type="number" name="costo" label="Costo" InputLabelProps={{shrink: true,}} />
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
+                        <TextField required id="Fecha" type="date" name="fecha_alta" label="Fecha de alta" InputLabelProps={{shrink: true,}} />
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
+                        <FormLabel component="legend">Unidad de medida </FormLabel>
+                          <RadioGroup aria-label="unidad" name="unidad_medida">
+                            <FormControlLabel value="pz" control={<Radio />} label="Pieza" />
+                            <FormControlLabel value="lt" control={<Radio />} label="Lt" />
+                            <FormControlLabel value="ot" control={<Radio />} label="Otro" />
+                          </RadioGroup>
+                       </Grid>
+                       <br />
+                       <Grid item xs={12}>
+                        <Button variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />}> Añadir </Button>
+                        <button>Enviar</button>
+                      </Grid>
+                  </form>
+              </Paper>
+            </Grid>
 
-                                    <span>Descripción  &nbsp;&nbsp;&nbsp;</span>
-                                    <textarea name="descripcion"></textarea>
-
-                                    <br /><br />
-
-                                    <label>
-                                        <span>SKU &nbsp;&nbsp;&nbsp;</span>
-                                        <input type="number" className="k-number" name="sku"/>
-                                    </label>
-                                    <br /><br />
-
-                                    <label>
-                                        <span>Costo &nbsp;&nbsp;$</span>
-                                        <input type="number" className="k-number" name="costo"/>
-                                    </label>
-                                    <br /><br />
-
-                                    <label>
-                                        <span>Fecha &nbsp;&nbsp;&nbsp;</span>
-                                        <input type="date" className="k-date" name="fecha_alta" />
-                                    </label>
-                                    <br /><br />
-
-                                    <div>
-                                        <input type="radio" name="unidad_medida" id="pieza" className="k-radio" value="Pieza"/>
-                                        <label className="k-radio-label" htmlFor="pieza">Pieza &nbsp;&nbsp;&nbsp;</label>
-
-                                        <input type="radio" name="unidad_medida" id="it" className="k-radio" value="It"/>
-                                        <label className="k-radio-label" htmlFor="it">It &nbsp;&nbsp;&nbsp;</label>
-                                    </div>
-                                    
-                                
-
-                                <br /><br />
-                                <div >
-                                <center><button className="k-button k-primary">Enviar</button></center>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </Paper>
-            <Paper>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
                 <Orders />
-            </Paper>
+              </Paper>
+            </Grid>
+
+          </Grid>
+
         </Container>
         </main>
       </div>
