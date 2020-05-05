@@ -8,17 +8,52 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import SendIcon from '@material-ui/icons/Send';
+import Paper from '@material-ui/core/Paper';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
-const useStyles = theme => ({
-  seeMore: {
+const useStyles = makeStyles((theme) => ({
+    appBarSpacer: theme.mixins.toolbar,
+    content: {
+      flexGrow: 1,
+      height: '100vh',
+      overflow: 'auto',
+    },
+    container: {
+      paddingTop: theme.spacing(4),
+      paddingBottom: theme.spacing(4),
+    },
+    paper: {
+      padding: theme.spacing(2),
+      display: 'flex',
+      overflow: 'auto',
+      flexDirection: 'column',
+    },
+    button: {
+    margin: theme.spacing(1),
+    },
+      seeMore: {
     marginTop: theme.spacing(3),
   },
-});
+  }));
+
 function NuevoMovimiento(){
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  
+    const classes = useStyles();
+
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -26,72 +61,66 @@ function NuevoMovimiento(){
     const handleClose = () => {
       setOpen(false);
     };
+
+    const [articulo, setArticulo] = React.useState('');
+    const handleChange = (event) => {
+    setArticulo(event.target.value);
+    };
   
     return (
       <div>
       class Formulario extends React.Component {
-            <div className="row example-wrapper">
-            <br /><br />
-            <br /><br />
+        <div className="root">
+          <main>
+            <div className={classes.appBarSpacer} />
+              <Container maxWidth="xl" className={classes.container}>
+                <Grid container spacing={3}>
+                {/*Formulario*/}
+                 <Grid item xs={12}>
+                  <Paper elevation={3} className={classes.paper}>
+                      <form>
+                        <Typography variant="h6" gutterBottom> Información del movimiento </Typography>
 
-                <div className="col-xs-15 col-sm-6 offset-sm-3 example-col">
-                    <div className="card">
-                        <div className="card-block">
-                            <form className="k-form">
-                                <fieldset>
-                                    <legend>Información del Movimiento</legend>
-
-                                    <label className="k-form-field">
-                                        <span>Tipo de Movimiento &nbsp;&nbsp;&nbsp;</span>
-
-                                        <input type="radio" name="tipo" id="entrada" className="k-radio" />
-                                        <label className="k-radio-label" for="entrada">Entrada&nbsp;&nbsp;&nbsp;</label>
-
-                                        <input type="radio" name="tipo" id="salida" className="k-radio" />
-                                        <label className="k-radio-label" for="salida">Salida </label>
-
-                                    <span>Artículo  &nbsp;&nbsp;&nbsp;</span>
-                                       <select>
-                                      <option value="ejemplo">Ejemplo</option>
-                                      <option value="ejemplo2">Ejemplo 2</option>
-                                      </select>
-                                    </label>
-                                    <br /><br />
-
-                                    <label className="k-form-field">
-                                        <span>Cantidad &nbsp;&nbsp;&nbsp;</span>
-                                        <input type="number" name="cantidad"/>
-                                    </label>
-                                    <br /><br />
-
-                                    <label className="k-form-field">
-                                        <span>Fecha &nbsp;&nbsp;&nbsp;</span>
-                                        <input type="date" name="fecha" />
-                                    </label>
-                                </fieldset>
-
-                                <br /><br />
-
-                                <fieldset>
-                                    <legend>Detalles del Movimiento</legend>
-                                    <label className="k-form-field">
-                                        <span>Persona encargada  &nbsp;&nbsp;&nbsp;</span>
-                                        <input readOnly value="Administrador"/>
-                                    </label>
-                                    <br /><br />
-
-                                    <span>Descripción  &nbsp;&nbsp;&nbsp;</span>
-                                    <textarea name="descripcion"></textarea>
-
-                                    <br /><br />
-                                        <span>Número de Movimiento &nbsp;&nbsp;&nbsp;</span>
-                                        <input type="number" name="numMov"/>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <Grid item xs={12}>
+                          <FormLabel component="legend">Tipo de movimiento </FormLabel>
+                            <RadioGroup aria-label="movimiento" name="tipo">
+                              <FormControlLabel value="e" control={<Radio />} label="Entrada" />
+                              <FormControlLabel value="s" control={<Radio />} label="Salida" />
+                            </RadioGroup>
+                        </Grid>
+                        <br />
+                        <Grid item xs={12}>
+                          <InputLabel id="articulos">Articulos</InputLabel>
+                          <Select labelId="articulos" id="articulos" value={articulo} onChange={handleChange}>
+                            <MenuItem value={"ejemplo"}>EJEMPLO1</MenuItem>
+                            <MenuItem value={"ejemplo1"}>EJEMPLO2</MenuItem>
+                            <MenuItem value={"ejemplo2"}>EJEMPLO3</MenuItem>
+                          </Select>
+                        </Grid>
+                        <br />
+                        <Grid item xs={12}>
+                          <TextField required id="Cantidad" type="number" name="cantidad" label="Cantidad" InputLabelProps={{shrink: true,}} />
+                        </Grid>
+                        <br />
+                        <Grid item xs={12}>
+                          <TextField required id="Fecha" type="date" name="fecha_mov" label="Fecha" InputLabelProps={{shrink: true,}} />
+                        </Grid>
+                        <br />
+                        <Typography variant="h6" gutterBottom> Detalles del movimiento </Typography>
+                        <Grid item xs={12}>
+                          <TextField id="Descripción" name="descripcion" label="Descripción" fullWidth  />
+                        </Grid>
+                        <br />
+                        <Grid item xs={12}>
+                          <Button type="submit" variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />}> Añadir </Button>
+                        </Grid>
+                      </form>
+                    </Paper>
+                  </Grid>
+                </Grid>
+              </Container>
+            </main>
+          </div>
 }
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
           CREAR Movimiento
