@@ -14,6 +14,23 @@ const useStyles = theme => ({
     marginTop: theme.spacing(3),
   },
 });
+
+
+function handleSubmit(event){
+  event.preventDefault();
+  const json = {};
+  const data = new FormData(event.target);
+  Array.from(data.entries()).forEach(([key, value]) => {
+      json[key] = value;
+  })
+  fetch('http://localhost:9000/usuarios/insert', {  
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(json),
+  });
+}
+
+
 function NuevoUsuario(){
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
@@ -37,31 +54,22 @@ function NuevoUsuario(){
                 <div className="col-xs-15 col-sm-6 offset-sm-3 example-col">
                     <div className="card">
                         <div className="card-block">
-                            <form className="k-form">
+                            <form className="k-form"  onSubmit={handleSubmit} >
                                 <fieldset>
                                     <legend>Información del Usuario</legend>
 
                                     <label className="k-form-field">
                                         <span>Nombre(s)  &nbsp;&nbsp;&nbsp;</span>
-                                        <input className="k-textbox" />
+                                        <input className="k-textbox" name="nombre" />
                                     </label>
                                     <br /><br />
 
                                     <label className="k-form-field">
                                         <span>Apellidos &nbsp;&nbsp;&nbsp;</span>
-                                        <input className="k-textbox"/>
+                                        <input className="k-textbox" name="apellido" />
                                     </label>
 
                                     <br /><br />
-                                    <div className="k-form-field">
-                                        <span>Género &nbsp;&nbsp;&nbsp;</span>
-
-                                        <input type="radio" name="genero" id="mujer" className="k-radio" />
-                                        <label className="k-radio-label" for="mujer">Mujer &nbsp;&nbsp;&nbsp;</label>
-
-                                        <input type="radio" name="genero" id="hombre" className="k-radio" />
-                                        <label className="k-radio-label" for="hombre">Hombre </label>
-                                    </div>
                                 </fieldset>
 
                                 <br /><br />
@@ -70,26 +78,27 @@ function NuevoUsuario(){
                                     <legend>Detalles del Usuario</legend>
                                     <label className="k-form-field">
                                         <span>Usuario &nbsp;&nbsp;&nbsp;</span>
-                                        <input className="k-textbox" />
+                                        <input className="k-textbox" name="nombre_usuario" />
                                     </label>
                                     <label className="k-form-field">
                                         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Contraseña &nbsp;&nbsp;&nbsp;</span>
-                                        <input type="password" className="k-textbox"/>
+                                        <input type="password" className="k-textbox" name="contrasena" />
                                     </label>
 
                                     <br /><br />
 
                                     <div className="k-form-field">
-                                        <input type="radio" name="tipo" id="admin" className="k-radio" />
+                                        <input type="radio" name="tipo" id="admin" className="k-radio" value="a" />
                                         <label className="k-radio-label" for="admin">Administrador &nbsp;&nbsp;&nbsp;</label>
 
-                                        <input type="radio" name="tipo" id="encargado" className="k-radio" />
+                                        <input type="radio" name="tipo" id="encargado" className="k-radio" value="b" />
                                         <label className="k-radio-label" for="encargado">Encargado de Almácen &nbsp;&nbsp;&nbsp;</label>
 
-                                        <input type="radio" name="tipo" id="empleado" className="k-radio" />
+                                        <input type="radio" name="tipo" id="empleado" className="k-radio" value="c" />
                                         <label className="k-radio-label" for="empleado">Empleado de Almácen</label>
                                     </div>
                                 </fieldset>
+                                <Button type="submit" variant="contained" color="primary"> Añadir </Button>
                             </form>
                         </div>
                     </div>
