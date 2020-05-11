@@ -4,6 +4,8 @@ import AddProvider from './components/AddProvider';
 import NuevoUsuario from './components/NuevoUsuario'; 
 import NuevoMovimiento from './components/NuevoMovimiento'; 
 import AddArticle from './components/AddArticle';
+import AvailableArticles from './components/AvailableArticles';
+import AvailableProviders from './components/AvailableProviders';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Tester from './Test';
 import './App.css';
@@ -28,9 +30,9 @@ class App extends Component {
           <Route path="/test" component={Tester}/>
           <Route path="/dash" component={Dashboard}/>
           <Route path="/addarticle" component={AddArticle}/>
-          <Route path="/articles" component={Dashboard}/>
+          <Route path="/articles" component={AvailableArticles}/>
           <Route path="/addprovider" component={AddProvider}/>
-          <Route path="/providers" component={Dashboard}/>
+          <Route path="/providers" component={AvailableProviders}/>
           <Route path="/addmovement" component={NuevoMovimiento}/>
           <Route path="/movements" component={Dashboard}/>
           <Route path="/inventoryvalue" component={Dashboard}/>
