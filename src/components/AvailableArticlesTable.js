@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Link from '@material-ui/core/Link';
-import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,12 +6,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Divider from '@material-ui/core/Divider';
-
-const useStyles = theme => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-});
 
 
 class AvailableArticlesTable extends Component{
@@ -52,7 +44,6 @@ class AvailableArticlesTable extends Component{
 
 
   render(){
-    const {classes} = this.props;
     return(
       <React.Fragment>
         <Title>Inventario Actual</Title>
@@ -90,4 +81,4 @@ class AvailableArticlesTable extends Component{
   }
 }
  
-export default withStyles(useStyles)(AvailableArticlesTable);
+export default (AvailableArticlesTable);

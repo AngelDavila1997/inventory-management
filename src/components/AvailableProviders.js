@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function AddArticle() {
+export default function AvailableProviders() {
     const classes = useStyles();
   
     return (

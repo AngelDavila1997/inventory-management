@@ -8,14 +8,14 @@ import Title from './Title';
 import Divider from '@material-ui/core/Divider';
 
 
-class AvailableProvidersTable extends Component{
+class UserListTable extends Component{
   constructor(props){
     super(props);
     this.state = { rows: [] , resp: []};
   }
 
-  createData(id_proveedor, nombre, correo, telefono) {
-    return {id_proveedor, nombre, correo, telefono};
+  createData(id_usuario, nombre_usuario, nombre, apellido, tipo_usuario, fecha_alta) {
+    return {id_usuario, nombre_usuario, nombre, apellido, tipo_usuario, fecha_alta};
   }
 
   fillRows(){
@@ -24,7 +24,7 @@ class AvailableProvidersTable extends Component{
       this.state.resp.data.forEach(data => {
         if(!this.state.rows.includes(data)){
           console.log(data)
-          temp.push(this.createData(data.id_proveedor, data.nombre, data.correo, data.telefono))
+          temp.push(this.createData(data.id_usuario, data.nombre_usuario, data.nombre, data.apellido, data.tipo_usuario, data.fecha_alta))
         }
       });
     }
@@ -36,7 +36,7 @@ class AvailableProvidersTable extends Component{
   }
 
   componentDidMount(){
-    fetch("http://localhost:9000/proveedores/show")
+    fetch("http://localhost:9000/usuarios/show")
           .then(res => res.json())
           .then(res => this.setState({ resp: res }))
           .then(() => this.fillRows());
@@ -46,24 +46,28 @@ class AvailableProvidersTable extends Component{
   render(){
     return(
       <React.Fragment>
-        <Title>Proveedores</Title>
+        <Title>Usuarios</Title>
         <Divider />
         <Table size="small">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
+              <TableCell>Usuario</TableCell>
               <TableCell>Nombre</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Teléfono</TableCell>
+              <TableCell>Apellido</TableCell>
+              <TableCell>Tipo de usuario</TableCell>
+              <TableCell>Fecha de alta</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {this.state.rows.map((row) => (
-              <TableRow key={row.id_proveedor}>
-                <TableCell>{row.id_proveedor}</TableCell>
+              <TableRow key={row.id_usuario}>
+                <TableCell>{row.id_usuario}</TableCell>
+                <TableCell>{row.nombre_usuario}</TableCell>
                 <TableCell>{row.nombre}</TableCell>
-                <TableCell>{row.correo}</TableCell>
-                <TableCell>{row.telefono}</TableCell>
+                <TableCell>{row.apellido}</TableCell>
+                <TableCell>{row.tipo_usuario}</TableCell>
+                <TableCell>{row.fecha_alta}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -73,4 +77,4 @@ class AvailableProvidersTable extends Component{
   }
 }
  
-export default (AvailableProvidersTable);
+export default (UserListTable);

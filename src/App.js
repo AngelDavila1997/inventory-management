@@ -6,6 +6,7 @@ import NuevoMovimiento from './components/NuevoMovimiento';
 import AddArticle from './components/AddArticle';
 import AvailableArticles from './components/AvailableArticles';
 import AvailableProviders from './components/AvailableProviders';
+import UserList from './components/UserList';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Tester from './Test';
 import './App.css';
@@ -41,7 +42,7 @@ class App extends Component {
           <Route path="/articlelist" component={Dashboard}/>
           <Route path="/movementlist" component={Dashboard}/>
           <Route path="/addnewuser" component={NuevoUsuario}/>
-          <Route path="/users" component={Dashboard}/>
+          <Route path="/userlist" component={UserList}/>
         </Switch>
       </div>
     </Router>

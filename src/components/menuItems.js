@@ -77,29 +77,4 @@ export const items = [
     ]
   },
     "divider",
-  {
-    name: "settings",
-    label: "Configuración",
-    Icon: SettingsIcon,
-    items: [
-      { name: "insurance", label: "Insurance" },
-      "divider",
-      {
-        name: "notifications",
-        label: "Notifications",
-        Icon: NotificationsIcon,
-        items: [
-          { name: "email", label: "Email" },
-          {
-            name: "desktop",
-            label: "Desktop",
-            Icon: DesktopWindowsIcon,
-            items: [
-              { name: "schedule", label: "Schedule" },
-            ]
-          },
-        ]
-      }
-    ]
-  }
 ];

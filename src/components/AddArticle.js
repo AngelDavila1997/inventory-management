@@ -104,12 +104,6 @@ const useStyles = makeStyles((theme) => ({
               </Paper>
             </Grid>
 
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders />
-              </Paper>
-            </Grid>
-
           </Grid>
 
         </Container>
