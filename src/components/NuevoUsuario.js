@@ -84,7 +84,7 @@ function NuevoUsuario(){
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <Paper elevation={3} className={classes.paper}>
-                        <form onSubmit={handleSubmit} >
+                        <form onSubmit={handleSubmit} id="NuevoUsuario">
                           <Typography variant="h6" gutterBottom> Información del usuario </Typography>
 
                           <Grid item xs={12}>
@@ -115,7 +115,9 @@ function NuevoUsuario(){
                           </Grid>
                           <br />
                           <Grid item xs={12}>
-                            <Button type="submit" variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />}> Añadir </Button>
+                          <Button variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />} onClick={handleClickOpen}>
+                            CREAR USUARIO
+                          </Button>
                           </Grid>
                         </form>
                       </Paper>
@@ -126,9 +128,7 @@ function NuevoUsuario(){
             </div>
 
 }
-        <Button variant="contained" color="primary" onClick={handleClickOpen}>
-          CREAR USUARIO
-        </Button>
+        
         <Dialog
           fullScreen={fullScreen}
           open={open}
@@ -145,7 +145,13 @@ function NuevoUsuario(){
             <Button autoFocus onClick={handleClose} color="primary">
               Cancelar
             </Button>
-            <Button onClick={handleClose} color="primary" autoFocus>
+            <Button 
+            onClick={handleClose}
+            color="primary"
+            autoFocus
+            type="submit"
+            form="NuevoUsuario"
+            >
               Aceptar
             </Button>
           </DialogActions>
