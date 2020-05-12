@@ -7,7 +7,8 @@ import AddArticle from './components/AddArticle';
 import AvailableArticles from './components/AvailableArticles';
 import AvailableProviders from './components/AvailableProviders';
 import UserList from './components/UserList';
-import Test from './Test'
+import Test from './Test';
+import AvailableMovements from './components/AvailableMovements';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import './App.css';
@@ -36,7 +37,7 @@ class App extends Component {
           <Route path="/addprovider" component={AddProvider}/>
           <Route path="/providers" component={AvailableProviders}/>
           <Route path="/addmovement" component={NuevoMovimiento}/>
-          <Route path="/movements" component={Dashboard}/>
+          <Route path="/movements" component={AvailableMovements}/>
           <Route path="/inventoryvalue" component={Dashboard}/>
           <Route path="/restock" component={Dashboard}/>
           <Route path="/inactivity" component={Dashboard}/>
@@ -45,6 +46,7 @@ class App extends Component {
           <Route path="/addnewuser" component={NuevoUsuario}/>
           <Route path="/userlist" component={UserList}/>
           <Route path="/test" component={Test}/>
+
         </Switch>
       </div>
     </Router>
