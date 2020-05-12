@@ -22,6 +22,11 @@ import Paper from '@material-ui/core/Paper';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import MaterialTable from 'material-table';
+
+var CreoMovimiento = false;
+var index = 0;
+
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -48,8 +53,27 @@ const useStyles = makeStyles((theme) => ({
   },
   }));
 
+  async function handleSubmit(event){
+    event.preventDefault();
+    const json = {};
+    
+    const data = new FormData(event.target);
+    Array.from(data.entries()).forEach(([key, value]) => {
+        json[key] = value;
+    })
+    return fetch('http://localhost:9000/movimientos/insert', {  
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(json),
+    })
+    .then(res => res.json())
+    .then(data => console.log(index = data.id))
+    .then(() => console.log(CreoMovimiento = true))
+  }
 function NuevoMovimiento(){
+
     const [open, setOpen] = React.useState(false);
+    const [sent, setSent] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const classes = useStyles();
@@ -62,14 +86,19 @@ function NuevoMovimiento(){
       setOpen(false);
     };
 
+    const handleSubmitInside = (event) => {
+      handleSubmit(event)
+      .then(()=> setSent(true))
+      .then(() => console.log("then"))
+    };
+
     const [articulo, setArticulo] = React.useState('');
     const handleChange = (event) => {
     setArticulo(event.target.value);
     };
-  
+    
     return (
       <div>
-      class Formulario extends React.Component {
         <div className="root">
           <main>
             <div className={classes.appBarSpacer} />
@@ -78,7 +107,8 @@ function NuevoMovimiento(){
                 {/*Formulario*/}
                  <Grid item xs={12}>
                   <Paper elevation={3} className={classes.paper}>
-                      <form>
+                  <form onSubmit={handleSubmitInside} id="NuevoMovimiento">
+                  <input type="hidden" name="id_usuario" value="1"/>
                         <Typography variant="h6" gutterBottom> Información del movimiento </Typography>
 
                         <Grid item xs={12}>
@@ -89,30 +119,69 @@ function NuevoMovimiento(){
                             </RadioGroup>
                         </Grid>
                         <br />
-                        <Grid item xs={12}>
-                          <InputLabel id="articulos">Articulos</InputLabel>
-                          <Select labelId="articulos" id="articulos" value={articulo} onChange={handleChange}>
-                            <MenuItem value={"ejemplo"}>EJEMPLO1</MenuItem>
-                            <MenuItem value={"ejemplo1"}>EJEMPLO2</MenuItem>
-                            <MenuItem value={"ejemplo2"}>EJEMPLO3</MenuItem>
-                          </Select>
-                        </Grid>
-                        <br />
-                        <Grid item xs={12}>
-                          <TextField required id="Cantidad" type="number" name="cantidad" label="Cantidad" InputLabelProps={{shrink: true,}} />
-                        </Grid>
-                        <br />
-                        <Grid item xs={12}>
-                          <TextField required id="Fecha" type="date" name="fecha_mov" label="Fecha" InputLabelProps={{shrink: true,}} />
-                        </Grid>
-                        <br />
                         <Typography variant="h6" gutterBottom> Detalles del movimiento </Typography>
                         <Grid item xs={12}>
                           <TextField id="Descripción" name="descripcion" label="Descripción" fullWidth  />
                         </Grid>
                         <br />
                         <Grid item xs={12}>
-                          <Button type="submit" variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />}> Añadir </Button>
+                          <Button variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />} onClick={handleClickOpen} disabled={CreoMovimiento}>
+                            CREAR Movimiento
+                          </Button>
+                        </Grid>
+                        <Grid item sx={12}>
+                          { CreoMovimiento &&
+                            <MaterialTable
+                            title="Articulos"
+                            columns={[
+                              { title: 'SKU', field: 'sku'},
+                              { title: 'Nombre', field: 'nombre_articulo' , editable: 'never'},
+                              { title: 'Descripcion', field: 'descripcion', editable: 'never'},
+                              { title: 'Costo', field: 'costo', editable: 'never'},
+                              { title: 'Unidad de Medida', field: 'unidad_medida', editable: 'never'},
+                              { title: 'Cantidad', field: 'cantidad'},
+                              { title: 'Proveedor', field: 'nombre_proveedor', editable: 'never'},
+                            ]}
+                            data={query =>
+                              new Promise((resolve, reject) => {
+                                let url = 'http://localhost:9000/movimientos/load'
+                                url += '/'+index
+                                fetch(url)
+                                  .then(response => response.json())
+                                  .then(result => {
+                                    resolve({
+                                      data: result.data,
+                                      page: result.page,
+                                      totalCount: result.totalCount,
+                                    })
+                                  })
+                              })
+                            }
+                            options={{
+                              search: false
+                            }}
+                            editable={{
+                              onRowAdd: newData =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        {
+                                          let url = 'http://localhost:9000/movimientos/insertArticulo'
+                                          url += '/'+index
+                                          console.log(newData)
+
+                                          fetch(url, {
+                                            method: 'post',
+                                            headers: {'Content-Type': 'application/json'},
+                                            body: JSON.stringify(newData),
+                                          })
+                                            .then(() => resolve())
+                                        }
+                                        resolve();
+                                    }, 1000);
+                                }),
+                            }}
+                          />
+                          }
                         </Grid>
                       </form>
                     </Paper>
@@ -121,10 +190,7 @@ function NuevoMovimiento(){
               </Container>
             </main>
           </div>
-}
-        <Button variant="contained" color="primary" onClick={handleClickOpen}>
-          CREAR Movimiento
-        </Button>
+        
         <Dialog
           fullScreen={fullScreen}
           open={open}
@@ -141,7 +207,13 @@ function NuevoMovimiento(){
             <Button autoFocus onClick={handleClose} color="primary">
               Cancelar
             </Button>
-            <Button onClick={handleClose} color="primary" autoFocus>
+            <Button 
+            onClick={handleClose}
+            color="primary"
+            autoFocus
+            type="submit"
+            form="NuevoMovimiento"
+            >
               Aceptar
             </Button>
           </DialogActions>

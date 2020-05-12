@@ -1,9 +1,32 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
-//import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import SendIcon from '@material-ui/icons/Send';
 import Paper from '@material-ui/core/Paper';
-import Orders from './components/Orders';   
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import MaterialTable from 'material-table';
+
+var CreoMovimiento = false;
+var index = 0;
+
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -22,159 +45,181 @@ const useStyles = makeStyles((theme) => ({
       overflow: 'auto',
       flexDirection: 'column',
     },
-    fixedHeight: {
-      height: 240,
+    button: {
+    margin: theme.spacing(1),
     },
+      seeMore: {
+    marginTop: theme.spacing(3),
+  },
   }));
-  
 
-  function handleSubmit(event){
+  async function handleSubmit(event){
     event.preventDefault();
     const json = {};
+    
     const data = new FormData(event.target);
     Array.from(data.entries()).forEach(([key, value]) => {
         json[key] = value;
     })
-    fetch('http://localhost:9000/articulos/insert', {  
+    return fetch('http://localhost:9000/movimientos/insert', {  
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(json),
-    });
+    })
+    .then(res => res.json())
+    .then(data => console.log(index = data.id))
+    .then(() => console.log(CreoMovimiento = true))
   }
-  export default function Dashboard() {
+function NuevoMovimiento(){
+
+    const [open, setOpen] = React.useState(false);
+    const [sent, setSent] = React.useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const classes = useStyles();
-    //const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
   
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    const handleSubmitInside = (event) => {
+      handleSubmit(event)
+      .then(()=> setSent(true))
+      .then(() => console.log("then"))
+    };
+
+    const [articulo, setArticulo] = React.useState('');
+    const handleChange = (event) => {
+    setArticulo(event.target.value);
+    };
+    
     return (
-      <div className="root">
-        <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="xl" className={classes.container}>
-            <Paper>
-            <div className="row example-wrapper">
-                <div className="col-xs-15 col-sm-6 offset-sm-3 example-col">
-                    <div className="card">
-                        <div className="card-block">
-                            <form onSubmit={handleSubmit} className="k-form">
-                                <fieldset>
-                                    <legend>Información del Artículo</legend>
-                                    <input type="hidden" name="id_usuario" value="1"/>
-                                    <input type="hidden" name="id_proveedor" value="1"/>
+      <div>
+        <div className="root">
+          <main>
+            <div className={classes.appBarSpacer} />
+              <Container maxWidth="xl" className={classes.container}>
+                <Grid container spacing={3}>
+                {/*Formulario*/}
+                 <Grid item xs={12}>
+                  <Paper elevation={3} className={classes.paper}>
+                  <form onSubmit={handleSubmitInside} id="NuevoMovimiento">
+                  <input type="hidden" name="id_usuario" value="1"/>
+                        <Typography variant="h6" gutterBottom> Información del movimiento </Typography>
 
-                                    <label className="k-form-field">
-                                        <span>Nombre  &nbsp;&nbsp;&nbsp;</span>
-                                        <input className="textbox" name="nombre_articulo"/>
-                                    </label>
-                                    <br /><br />
+                        <Grid item xs={12}>
+                          <FormLabel component="legend">Tipo de movimiento </FormLabel>
+                            <RadioGroup aria-label="movimiento" name="tipo">
+                              <FormControlLabel value="e" control={<Radio />} label="Entrada" />
+                              <FormControlLabel value="s" control={<Radio />} label="Salida" />
+                            </RadioGroup>
+                        </Grid>
+                        <br />
+                        <Typography variant="h6" gutterBottom> Detalles del movimiento </Typography>
+                        <Grid item xs={12}>
+                          <TextField id="Descripción" name="descripcion" label="Descripción" fullWidth  />
+                        </Grid>
+                        <br />
+                        <Grid item xs={12}>
+                          <Button variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />} onClick={handleClickOpen} disabled={CreoMovimiento}>
+                            CREAR Movimiento
+                          </Button>
+                        </Grid>
+                        <Grid item sx={12}>
+                          { CreoMovimiento &&
+                            <MaterialTable
+                            title="Articulos"
+                            columns={[
+                              { title: 'SKU', field: 'sku'},
+                              { title: 'Nombre', field: 'nombre_articulo' , editable: 'never'},
+                              { title: 'Descripcion', field: 'descripcion', editable: 'never'},
+                              { title: 'Costo', field: 'costo', editable: 'never'},
+                              { title: 'Unidad de Medida', field: 'unidad_medida', editable: 'never'},
+                              { title: 'Cantidad', field: 'cantidad'},
+                              { title: 'Proveedor', field: 'nombre_proveedor', editable: 'never'},
+                            ]}
+                            data={query =>
+                              new Promise((resolve, reject) => {
+                                let url = 'http://localhost:9000/movimientos/load'
+                                url += '/'+index
+                                fetch(url)
+                                  .then(response => response.json())
+                                  .then(result => {
+                                    resolve({
+                                      data: result.data,
+                                      page: result.page,
+                                      totalCount: result.totalCount,
+                                    })
+                                  })
+                              })
+                            }
+                            options={{
+                              search: false
+                            }}
+                            editable={{
+                              onRowAdd: newData =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        {
+                                          let url = 'http://localhost:9000/movimientos/insertArticulo'
+                                          url += '/'+index
+                                          console.log(newData)
 
-                                    <span>Descripción  &nbsp;&nbsp;&nbsp;</span>
-                                    <textarea name="descripcion"></textarea>
-
-                                    <br /><br />
-
-                                    <label className="k-form-field">
-                                        <span>SKU &nbsp;&nbsp;&nbsp;</span>
-                                        <input type="number" className="k-number" name="sku"/>
-                                    </label>
-                                    <br /><br />
-
-                                    <label className="k-form-field">
-                                        <span>Costo &nbsp;&nbsp;$</span>
-                                        <input type="number" className="k-number" name="costo"/>
-                                    </label>
-                                    <br /><br />
-
-                                    <label className="k-form-field">
-                                        <span>Fecha &nbsp;&nbsp;&nbsp;</span>
-                                        <input type="date" className="k-date" name="fecha_alta" />
-                                    </label>
-                                    <br /><br />
-
-                                    <div className="k-form-field">
-                                        <input type="radio" name="unidad_medida" id="pieza" className="k-radio" value="Pieza"/>
-                                        <label className="k-radio-label" htmlFor="pieza">Pieza &nbsp;&nbsp;&nbsp;</label>
-
-                                        <input type="radio" name="unidad_medida" id="it" className="k-radio" value="It"/>
-                                        <label className="k-radio-label" htmlFor="it">It &nbsp;&nbsp;&nbsp;</label>
-                                    </div>
-                                    
-                                </fieldset>
-
-                                <br /><br />
-                                <div className="text-right">
-                                <center><button className="k-button k-primary">Enviar</button></center>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </Paper>
-            <Paper>
-                <Orders />
-            </Paper>
-        </Container>
-        </main>
+                                          fetch(url, {
+                                            method: 'post',
+                                            headers: {'Content-Type': 'application/json'},
+                                            body: JSON.stringify(newData),
+                                          })
+                                            .then(() => resolve())
+                                        }
+                                        resolve();
+                                    }, 1000);
+                                }),
+                            }}
+                          />
+                          }
+                        </Grid>
+                      </form>
+                    </Paper>
+                  </Grid>
+                </Grid>
+              </Container>
+            </main>
+          </div>
+        
+        <Dialog
+          fullScreen={fullScreen}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="responsive-dialog-title"
+        >
+          <DialogTitle id="responsive-dialog-title">ALERTA</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ¿Estas seguro? Una vez aceptado el movimiento no podrán realizarse cambios en este. Verifique su información cuidadosamente.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={handleClose} color="primary">
+              Cancelar
+            </Button>
+            <Button 
+            onClick={handleClose}
+            color="primary"
+            autoFocus
+            type="submit"
+            form="NuevoMovimiento"
+            >
+              Aceptar
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
-  }
-
-/*
-class Insert extends Component {
-  constructor(props){
-    super(props);
-    this.state = { apiResponse: "" };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  
-  callAPI(search) {
-    fetch("http://localhost:9000/insert/", search)
-        .then(res => res.text())
-        .then(res => this.setState({ apiResponse: res }));
-  }
-
-  
-  handleSubmit(event){
-    event.preventDefault();
-    const data = new FormData(event.target);
-    
-    fetch('http://localhost:9000/insert', {
-        method: 'POST',
-        headers: {
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        },
-        body: data,
-      });
-  }
-
-  render(){
-    //const classes = this.props;
-    //const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    return (
-        <div className="root">
-          <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="false" className={classes.container}>
-              <Paper className={fixedHeightPaper}>
-                  <div>
-                  <form>
-                      <label htmlFor="id">Enter Id: </label>
-                      <input id="id" name="id" type="text"/>
-                      <br/>
-                      <label htmlFor="id">Enter Id2: </label>
-                      <input id="id2" name="id2" type="text"/>
-                      <br/>
-                      <button>Search</button>
-                  </form>
-                  <div className="Table" id="Table"/>
-                  </div>
-              </Paper>
-          </Container>
-          </main>
-        </div>
-      );
-  }
 }
-*/
+
+export default withStyles(useStyles)(NuevoMovimiento);
