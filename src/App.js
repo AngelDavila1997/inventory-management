@@ -8,7 +8,7 @@ import AvailableArticles from './components/AvailableArticles';
 import AvailableProviders from './components/AvailableProviders';
 import UserList from './components/UserList';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Tester from './Test';
+
 import './App.css';
 
 import {
@@ -28,7 +28,7 @@ class App extends Component {
         <CssBaseline />
         <ButtonAppBar/>
         <Switch>
-          <Route path="/test" component={Tester}/>
+
           <Route path="/dash" component={Dashboard}/>
           <Route path="/addarticle" component={AddArticle}/>
           <Route path="/articles" component={AvailableArticles}/>

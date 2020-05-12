@@ -5,9 +5,6 @@ import ReceiptIcon from "@material-ui/icons/Receipt";
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import ListIcon from '@material-ui/icons/List';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import DesktopWindowsIcon from "@material-ui/icons/DesktopWindows";
-import SettingsIcon from "@material-ui/icons/Settings";
 
 //export function onClick(e, item) {
   //window.alert(JSON.stringify(item, null, 2));
