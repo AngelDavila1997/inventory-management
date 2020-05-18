@@ -1,76 +1,134 @@
 import React, { Component } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Title from './Title';
-import Divider from '@material-ui/core/Divider';
+import MUIDataTable from "mui-datatables";
+import { CircularProgress, Typography } from '@material-ui/core';
 
 
 class AvailableProvidersTable extends Component{
-  constructor(props){
+  
+    constructor(props) {
     super(props);
-    this.state = { rows: [] , resp: []};
+    this.state = {
+      proveedores: [],
+      isLoading: false,
+      page: 0,
+      count: 1,
+    };
+  }
+  state = {
+    page: 0,
+    count: 1,
+    data: [["Loading Data..."]],
+    isLoading: false,
+  };
+ componentDidMount() {
+    this.getData(this.state.page);
   }
 
-  createData(id_proveedor, nombre, correo, telefono) {
-    return {id_proveedor, nombre, correo, telefono};
+
+  xhrRequest = (url) => {
+
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(response => response.json())
+        .then(result => {
+          resolve({
+            data: result.data,
+            total: result.total,
+          })
+        })
+    });
+
+  }  
+
+
+  // get data
+  getData = (page) => {
+    this.setState({ isLoading: true });
+    this.xhrRequest(`http://localhost:9000/proveedores/show/${page}`).then(res => {
+      this.setState({ data: res.data, isLoading: false, count: res.total });
+    });
   }
 
-  fillRows(){
-    var temp = []
-    if(this.state.rows.length === 0){
-      this.state.resp.data.forEach(data => {
-        if(!this.state.rows.includes(data)){
-          console.log(data)
-          temp.push(this.createData(data.id_proveedor, data.nombre, data.correo, data.telefono))
-        }
+  changePage = (page) => {
+    this.setState({
+      isLoading: true,
+    });
+    this.xhrRequest(`http://localhost:9000/proveedores/show/${page}`).then(res => {
+      this.setState({
+        isLoading: false,
+        page: page,
+        data: res.data,
+        count: res.total,
       });
-    }
-    this.setState({ rows: temp });
-  }
+    });
+  };
 
-  preventDefault(event){
-    event.preventDefault();
-  }
+ render() {
 
-  componentDidMount(){
-    fetch("http://localhost:9000/proveedores/show")
-          .then(res => res.json())
-          .then(res => this.setState({ resp: res }))
-          .then(() => this.fillRows());
-  }
+    const  columns = [
+      {
+      name: "id_proveedor",
+      label: "ID",
+      options: {
+       filter: true,
+       sort: false
+      }
+     },{
+      name: "nombre",
+      label: "Nombre",
+      options: {
+       filter: true,
+       sort: false
+      }
+     },{
+      name: "correo",
+      label: "Correo",
+      options: {
+       filter: true,
+       sort: false
+      }
+     },{
+      name: "telefono",
+      label: "Telefono",
+      options: {
+       filter: true,
+       sort: false
+      }
+     }
+    ];
+    const { data, page, count, isLoading} = this.state;
 
+    const options = {
+      filter: true,
+      filterType: 'dropdown',
+      responsive: 'stacked',
+      serverSide: true,
+      count: count,
+      page: page,
+      onTableChange: (action, tableState) => {
 
-  render(){
-    return(
-      <React.Fragment>
-        <Title>Proveedores</Title>
-        <Divider />
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Teléfono</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.rows.map((row) => (
-              <TableRow key={row.id_proveedor}>
-                <TableCell>{row.id_proveedor}</TableCell>
-                <TableCell>{row.nombre}</TableCell>
-                <TableCell>{row.correo}</TableCell>
-                <TableCell>{row.telefono}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </React.Fragment>
-    )
+        console.log(action, tableState);
+        // a developer could react to change on an action basis or
+        // examine the state as a whole and do whatever they want
+
+        switch (action) {
+          case 'changePage':
+            this.changePage(tableState.page);
+            break;
+        }
+      }
+    };
+    return (
+      <div>
+        <MUIDataTable title={<Typography>
+          Proveedores Disponibles
+          {isLoading && <CircularProgress size={24} style={{marginLeft: 15, position: 'relative', top: 4}} />}
+          </Typography>
+          } data={data} columns={columns} options={options} />
+      </div>
+    );
+
   }
 }
- 
-export default (AvailableProvidersTable);
+
+export default AvailableProvidersTable;
