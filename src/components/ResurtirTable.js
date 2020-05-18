@@ -3,12 +3,12 @@ import MUIDataTable from "mui-datatables";
 import { CircularProgress, Typography } from '@material-ui/core';
 
 
-class AvailableArticlesTable extends Component{
+class InventarioActualTable extends Component{
   
     constructor(props) {
     super(props);
     this.state = {
-      articulos: [],
+      proveedores: [],
       isLoading: false,
       page: 0,
       count: 1,
@@ -44,7 +44,7 @@ class AvailableArticlesTable extends Component{
   // get data
   getData = (page) => {
     this.setState({ isLoading: true });
-    this.xhrRequest(`http://localhost:9000/articulos/show/${page}`).then(res => {
+    this.xhrRequest(`http://localhost:9000/resurtir/show/${page}`).then(res => {
       this.setState({ data: res.data, isLoading: false, count: res.total });
     });
   }
@@ -53,7 +53,7 @@ class AvailableArticlesTable extends Component{
     this.setState({
       isLoading: true,
     });
-    this.xhrRequest(`http://localhost:9000/articulos/show/${page}`).then(res => {
+    this.xhrRequest(`http://localhost:9000/resurtir/show/${page}`).then(res => {
       this.setState({
         isLoading: false,
         page: page,
@@ -75,48 +75,20 @@ class AvailableArticlesTable extends Component{
       }
      },{
       name: "nombre_articulo",
-      label: "Nombre Articulo",
+      label: "Articulo",
       options: {
        filter: true,
        sort: false
       }
      },{
-      name: "descripcion",
-      label: "Descripción",
+      name: "cantidad",
+      label: "Cantidad en inventario",
       options: {
        filter: true,
        sort: false
       }
      },{
-      name: "costo",
-      label: "Costo",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "unidad_medida",
-      label: "Unidad de Medida",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "fecha_alta",
-      label: "Fecha de alta",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "id_usuario",
-      label: "Creador",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "id_proveedor",
+      name: "proveedor",
       label: "Proveedor",
       options: {
        filter: true,
@@ -149,7 +121,7 @@ class AvailableArticlesTable extends Component{
     return (
       <div>
         <MUIDataTable title={<Typography>
-          Artículos Disponibles
+          Resurtir Almacén
           {isLoading && <CircularProgress size={24} style={{marginLeft: 15, position: 'relative', top: 4}} />}
           </Typography>
           } data={data} columns={columns} options={options} />
@@ -159,4 +131,4 @@ class AvailableArticlesTable extends Component{
   }
 }
 
-export default AvailableArticlesTable;
+export default InventarioActualTable;
