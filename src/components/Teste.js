@@ -1,3 +1,5 @@
+
+
 import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -6,96 +8,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Divider from '@material-ui/core/Divider';
-import MUIDataTable from "mui-datatables";
-import { CircularProgress, Typography } from '@material-ui/core';
-
-const data = [
- ["Joe James", "Test Corp", "Yonkers", "NY"],
- ["John Walsh", "Test Corp", "Hartford", "CT"],
- ["Bob Herm", "Test Corp", "Tampa", "FL"],
- ["James Houston", "Test Corp", "Dallas", "TX"],
-];
 
 
 class AvailableArticlesTable extends Component{
-  /*constructor(props){
+  constructor(props){
     super(props);
     this.state = { rows: [] , resp: []};
-  }*/
-    constructor(props) {
-    super(props);
-    this.state = {
-      articulos: [],
-      isLoading: false,
-      page: 0,
-      count: 1
-    };
-  }
-  state = {
-    page: 0,
-    count: 1,
-    data: [["Loading Data..."]],
-    isLoading: false
-  };
- componentDidMount() {
-    this.getData();
   }
 
-  // get data
-  getData = () => {
-    this.setState({ isLoading: true });
-    this.xhrRequest().then(res => {
-      this.setState({ data: res.data, isLoading: false, count: res.total });
-    });
-  }
-
-  // mock async function
-  xhrRequest = () => {
-
-    return new Promise((resolve, reject) => {
-      const total = 124;  // mock record count from server
-      // mock page data
-      const srcData = [
-        ["Gabby George", "Business Analyst", "Minneapolis"],
-        ["Aiden Lloyd", "Business Consultant", "Dallas"],
-        ["Jaden Collins", "Attorney", "Santa Ana"],
-        ["Franky Rees", "Business Analyst", "St. Petersburg"],
-        ["Aaren Rose", "Business Analyst", "Toledo"]
-      ];
-      
-      /*componentDidMount(){
-        fetch('http://localhost:9000/articulos/show')
-        .then(response=> response.json())
-        .then(users => this.setState({robots: users}));
-      }*/
-
-      const data = (acc => acc.push(...srcData) && acc, []);
-    
-
-      setTimeout(() => {
-        resolve({
-          data, total
-        });
-      }, 2500);
-
-    });
-
-  }
-  changePage = (page) => {
-    this.setState({
-      isLoading: true,
-    });
-    this.xhrRequest(`/myApiServer?page=${page}`).then(res => {
-      this.setState({
-        isLoading: false,
-        page: page,
-        data: res.data,
-        count: res.total,
-      });
-    });
-  };
-
-  /*createData(sku, nombre_articulo, descripcion, costo, unidad_medida, fecha_alta, id_usuario, id_proveedor) {
+  createData(sku, nombre_articulo, descripcion, costo, unidad_medida, fecha_alta, id_usuario, id_proveedor) {
     return {sku, nombre_articulo, descripcion, costo, unidad_medida, fecha_alta, id_usuario, id_proveedor};
   }
 
@@ -123,20 +44,10 @@ class AvailableArticlesTable extends Component{
           .then(() => this.fillRows());
   }
 
-  render(){
-    const  columns = ["SKU", "Nombre Articulo", "Descripción", "Costo", "Unidad de Medida", "Fecha de alta", "Creador", "Proveedor"];
-    const options = {
-      filterType: 'checkbox',
-    };
 
+  render(){
     return(
       <React.Fragment>
-        <MUIDataTable
-          title={"Employee List"}
-          data={data}
-          columns={columns}
-          options={options}
-        />
         <Title>Inventario Actual</Title>
         <Divider />
         <Table size="small">
@@ -172,43 +83,4 @@ class AvailableArticlesTable extends Component{
   }
 }
  
-export default (AvailableArticlesTable);*/
- render() {
-
-    const  columns = ["SKU", "Nombre Articulo", "Descripción", "Costo", "Unidad de Medida", "Fecha de alta", "Creador", "Proveedor"];
-    const { data, page, count, isLoading } = this.state;
-
-    const options = {
-      filter: true,
-      filterType: 'dropdown',
-      responsive: 'stacked',
-      serverSide: true,
-      count: count,
-      page: page,
-      onTableChange: (action, tableState) => {
-
-        console.log(action, tableState);
-        // a developer could react to change on an action basis or
-        // examine the state as a whole and do whatever they want
-
-        switch (action) {
-          case 'changePage':
-            this.changePage(tableState.page);
-            break;
-        }
-      }
-    };
-    return (
-      <div>
-        <MUIDataTable title={<Typography>
-          Inventario Actual
-          {isLoading && <CircularProgress size={24} style={{marginLeft: 15, position: 'relative', top: 4}} />}
-          </Typography>
-          } data={data} columns={columns} options={options} />
-      </div>
-    );
-
-  }
-}
-
-export default AvailableArticlesTable;
+export default (AvailableArticlesTable);

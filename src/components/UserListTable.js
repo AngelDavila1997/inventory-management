@@ -1,80 +1,148 @@
 import React, { Component } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Title from './Title';
-import Divider from '@material-ui/core/Divider';
+import MUIDataTable from "mui-datatables";
+import { CircularProgress, Typography } from '@material-ui/core';
 
 
-class UserListTable extends Component{
-  constructor(props){
+class UserTableList extends Component{
+  
+    constructor(props) {
     super(props);
-    this.state = { rows: [] , resp: []};
+    this.state = {
+      usuarios: [],
+      isLoading: false,
+      page: 0,
+      count: 1,
+    };
+  }
+  state = {
+    page: 0,
+    count: 1,
+    data: [["Loading Data..."]],
+    isLoading: false,
+  };
+ componentDidMount() {
+    this.getData(this.state.page);
   }
 
-  createData(id_usuario, nombre_usuario, nombre, apellido, tipo_usuario, fecha_alta) {
-    return {id_usuario, nombre_usuario, nombre, apellido, tipo_usuario, fecha_alta};
+
+  xhrRequest = (url) => {
+
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(response => response.json())
+        .then(result => {
+          resolve({
+            data: result.data,
+            total: result.total,
+          })
+        })
+    });
+
+  }  
+
+
+  // get data
+  getData = (page) => {
+    this.setState({ isLoading: true });
+    this.xhrRequest(`http://localhost:9000/usuarios/show/${page}`).then(res => {
+      this.setState({ data: res.data, isLoading: false, count: res.total });
+    });
   }
 
-  fillRows(){
-    var temp = []
-    if(this.state.rows.length === 0){
-      this.state.resp.data.forEach(data => {
-        if(!this.state.rows.includes(data)){
-          console.log(data)
-          temp.push(this.createData(data.id_usuario, data.nombre_usuario, data.nombre, data.apellido, data.tipo_usuario, data.fecha_alta))
-        }
+  changePage = (page) => {
+    this.setState({
+      isLoading: true,
+    });
+    this.xhrRequest(`http://localhost:9000/usuarios/show/${page}`).then(res => {
+      this.setState({
+        isLoading: false,
+        page: page,
+        data: res.data,
+        count: res.total,
       });
+    });
+  };
+
+ render() {
+
+    const  columns = [
+      {
+      name: "id_usuario",
+      label: "ID",
+      options: {
+       filter: true,
+       sort: false
+      }
+     },{
+      name: "nombre_usuario",
+      label: "Usuario",
+      options: {
+       filter: true,
+       sort: false
+      }
+     },{
+      name: "nombre",
+      label: "Nombre",
+      options: {
+       filter: true,
+       sort: false
+      }
+     },{
+      name: "apellido",
+      label: "Apellido",
+      options: {
+       filter: true,
+       sort: false
+      }
+     },{
+      name: "tipo_usuario",
+      label: "Tipo",
+      options: {
+       filter: true,
+       sort: false
+      }
+    },{
+      name: "fecha_alta",
+      label: "Fecha de alta",
+      options: {
+       filter: true,
+       sort: false
+      }
     }
-    this.setState({ rows: temp });
-  }
+    ];
+    const { data, page, count, isLoading} = this.state;
 
-  preventDefault(event){
-    event.preventDefault();
-  }
+    const options = {
+      filter: true,
+      filterType: 'dropdown',
+      responsive: 'stacked',
+      serverSide: true,
+      count: count,
+      page: page,
+      onTableChange: (action, tableState) => {
 
-  componentDidMount(){
-    fetch("http://localhost:9000/usuarios/show")
-          .then(res => res.json())
-          .then(res => this.setState({ resp: res }))
-          .then(() => this.fillRows());
-  }
+        console.log(action, tableState);
+        // a developer could react to change on an action basis or
+        // examine the state as a whole and do whatever they want
 
+        switch (action) {
+          case 'changePage':
+            this.changePage(tableState.page);
+            break;
+        }
+      }
+    };
+    return (
+      <div>
+        <MUIDataTable title={<Typography>
+          Usuarios del sistema
+          {isLoading && <CircularProgress size={24} style={{marginLeft: 15, position: 'relative', top: 4}} />}
+          </Typography>
+          } data={data} columns={columns} options={options} />
+      </div>
+    );
 
-  render(){
-    return(
-      <React.Fragment>
-        <Title>Usuarios</Title>
-        <Divider />
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Usuario</TableCell>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Apellido</TableCell>
-              <TableCell>Tipo de usuario</TableCell>
-              <TableCell>Fecha de alta</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.rows.map((row) => (
-              <TableRow key={row.id_usuario}>
-                <TableCell>{row.id_usuario}</TableCell>
-                <TableCell>{row.nombre_usuario}</TableCell>
-                <TableCell>{row.nombre}</TableCell>
-                <TableCell>{row.apellido}</TableCell>
-                <TableCell>{row.tipo_usuario}</TableCell>
-                <TableCell>{row.fecha_alta}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </React.Fragment>
-    )
   }
 }
- 
-export default (UserListTable);
+
+export default UserTableList;

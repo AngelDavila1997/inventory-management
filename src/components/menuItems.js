@@ -51,16 +51,6 @@ export const items = [
       { name: "inventoryvalue", label: "Valor Actual del Inventario", to: "/inventoryvalue" },
       { name: "restock", label: "Resurtir Almacén", to: "/restock" },
       { name: "inactivity", label: "Inactividad de Artículos", to: "/inactivity" },
-      "divider",
-      {
-        name: "lists",
-        label: "Listados",
-        Icon: ListIcon,
-        items: [
-          { name: "articlelist", label: "Articulos", to: "/articlelist" },
-          { name: "movementlist", label: "Movimientos", to: "/movementlist" }
-        ]
-      }
     ]
   },
   "divider",
