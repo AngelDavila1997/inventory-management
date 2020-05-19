@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import Chart from './Chart';
+import DashboardArticulos from './DashboardArticulos';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -43,7 +43,7 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                <DashboardArticulos/>
               </Paper>
             </Grid>
             {/* Recent Deposits */}

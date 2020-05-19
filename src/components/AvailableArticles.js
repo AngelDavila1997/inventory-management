@@ -33,7 +33,7 @@ export default function AvailableArticles() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="xl" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid item xs={12} >
              {// <Paper className={classes.paper} elevation={3} className={classes.paper}>
              }
                 <AvailableArticlesTable />
