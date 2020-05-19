@@ -57,6 +57,7 @@ function handleSubmit(event){
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(json),
   });
+  document.getElementById("NuevoUsuario").reset();
 }
 
 

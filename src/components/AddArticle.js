@@ -12,8 +12,10 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import Paper from '@material-ui/core/Paper';
+import { Select } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
 
-
+var loading = true;
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
     content: {
@@ -49,10 +51,29 @@ const useStyles = makeStyles((theme) => ({
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(json),
     });
+    document.getElementById("AddArticle").reset();
   }
+
   export default function AddArticle() {
     const classes = useStyles();
-  
+    const [providers, setProviders] = React.useState({});
+    const [loadedProviders, setLoadedProviders] = React.useState(false);
+    const getProviders = () => {
+      new Promise((resolve, reject) => {
+        let url = 'http://localhost:9000/proveedores/show'
+        fetch(url)
+          .then(response => response.json())
+          .then(result => {
+            resolve(setProviders(result.data))
+          })
+          .then(() => setLoadedProviders(true))
+      })
+    }
+
+    if(loading){
+      loading = false
+      getProviders()
+    }
     return (
       <div className="root">
         <main>
@@ -62,11 +83,10 @@ const useStyles = makeStyles((theme) => ({
           {/*Formulario*/}
             <Grid item xs={12}>
               <Paper elevation={3} className={classes.paper}>
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit} id="AddArticle">
                       <Typography variant="h6" gutterBottom> Información de artículo </Typography>
 
                       <input type="hidden" name="id_usuario" value="1"/>
-                      <input type="hidden" name="id_proveedor" value="1"/>
 
                       <Grid item xs={12}>
                         <TextField required id="Nombre" name="nombre_articulo" label="Nombre de articulo"  />
@@ -81,16 +101,24 @@ const useStyles = makeStyles((theme) => ({
                       </Grid>
                       <br />
                       <Grid item xs={12}>
+                      <FormLabel component="legend">Proveedor</FormLabel>
+                        <Select required id="Proveedor" name="id_proveedor" label="Proveedor" >
+                          {loadedProviders && 
+                          providers.map((provider) => <MenuItem value= {provider.id_proveedor} > {provider.nombre} </MenuItem>)}
+                        </Select>
+                      </Grid>
+                      <br />
+                      <Grid item xs={12}>
                         <TextField required id="Costo" type="number" name="costo" label="Costo" InputLabelProps={{shrink: true,}} />
                       </Grid>
                       <br />
                       <Grid item xs={12}>
-                        <TextField required id="Fecha" type="date" name="fecha_alta" label="Fecha de alta" InputLabelProps={{shrink: true,}} />
+                        <TextField required id="Resurtir" type="number" name="resurtir" label="Resurtir" InputLabelProps={{shrink: true,}} />
                       </Grid>
                       <br />
                       <Grid item xs={12}>
                         <FormLabel component="legend">Unidad de medida </FormLabel>
-                          <RadioGroup aria-label="unidad" name="unidad_medida">
+                          <RadioGroup aria-label="unidad" name="unidad_medida" id="unidad_medida">
                             <FormControlLabel value="pz" control={<Radio />} label="Pieza" />
                             <FormControlLabel value="lt" control={<Radio />} label="Lt" />
                             <FormControlLabel value="ot" control={<Radio />} label="Otro" />

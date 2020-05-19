@@ -12,6 +12,7 @@ class AvailableArticlesTable extends Component{
       isLoading: false,
       page: 0,
       count: 1,
+      searchText: "",
     };
   }
   state = {
@@ -19,6 +20,7 @@ class AvailableArticlesTable extends Component{
     count: 1,
     data: [["Loading Data..."]],
     isLoading: false,
+    searchText: "",
   };
  componentDidMount() {
     this.getData(this.state.page);
@@ -26,7 +28,6 @@ class AvailableArticlesTable extends Component{
 
 
   xhrRequest = (url) => {
-
     return new Promise((resolve, reject) => {
       fetch(url)
         .then(response => response.json())
@@ -62,6 +63,16 @@ class AvailableArticlesTable extends Component{
       });
     });
   };
+  customSearch = (searchQuery, currentRow, columns) => {
+    let isFound = false;
+    currentRow.forEach(col => {
+      console.log(col.toString())
+      if (col.toString().indexOf(searchQuery) >= 0) {
+        isFound = true;
+      }
+    });
+    return isFound;
+  }
 
  render() {
 
@@ -133,6 +144,7 @@ class AvailableArticlesTable extends Component{
       serverSide: true,
       count: count,
       page: page,
+      searchText: this.state.searchText,
       onTableChange: (action, tableState) => {
 
         console.log(action, tableState);
@@ -143,6 +155,9 @@ class AvailableArticlesTable extends Component{
           case 'changePage':
             this.changePage(tableState.page);
             break;
+          case 'search':
+            console.log(tableState.currentRow)
+            this.customSearch(tableState.searchText, tableState.data, columns)
         }
       }
     };

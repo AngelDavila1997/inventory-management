@@ -43,6 +43,7 @@ function handleSubmit(event){
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(json),
     });
+    document.getElementById("AddProvider").reset();
   }
 
 
@@ -58,7 +59,7 @@ function handleSubmit(event){
           {/*Formulario*/}
             <Grid item xs={12}>
               <Paper elevation={3} className={classes.paper}>
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit} id="AddProvider">
                       <Typography variant="h6" gutterBottom> Información del proveedor </Typography>
 
                       <input type="hidden" name="id_usuario" value="1"/>
