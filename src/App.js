@@ -10,6 +10,7 @@ import UserList from './components/UserList';
 import Test from './Test';
 import AvailableMovements from './components/AvailableMovements';
 import InventarioActual from './components/InventarioActual';
+import Login from './components/Login';
 import Resurtir from './components/Resurtir';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -22,8 +23,26 @@ import {
 } from "react-router-dom";
 
 import Dashboard from './components/Dashboard';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 //HOLA PROBANDO
+
+if(!cookies.get("login") || cookies.get("login") == -1){
+  console.log("must login")
+  cookies.set("login",-1)
+  if (window.location.pathname != "/login")
+    window.location = "/login"
+}
+
+if(cookies.get("login") && cookies.get("login") != -1){
+  console.log(cookies.get("login"))
+  if (window.location.pathname == "/login")
+    window.location = "/"
+}
+
+
 class App extends Component {
   render(){
     return (
@@ -32,8 +51,7 @@ class App extends Component {
         <CssBaseline />
         <ButtonAppBar/>
         <Switch>
-
-          <Route path="/dash" component={Dashboard}/>
+          <Route exact path="/" component={Dashboard}/>
           <Route path="/addarticle" component={AddArticle}/>
           <Route path="/articles" component={AvailableArticles}/>
           <Route path="/addprovider" component={AddProvider}/>
@@ -46,7 +64,7 @@ class App extends Component {
           <Route path="/addnewuser" component={NuevoUsuario}/>
           <Route path="/userlist" component={UserList}/>
           <Route path="/test" component={Test}/>
-
+          <Route path="/login" component={Login}/>
         </Switch>
       </div>
     </Router>

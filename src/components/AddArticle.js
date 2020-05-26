@@ -15,6 +15,9 @@ import Paper from '@material-ui/core/Paper';
 import { Select } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 var loading = true;
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -86,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
                   <form onSubmit={handleSubmit} id="AddArticle">
                       <Typography variant="h6" gutterBottom> Información de artículo </Typography>
 
-                      <input type="hidden" name="id_usuario" value="1"/>
+                      <input type="hidden" name="id_usuario" value={cookies.get("login")}/>
 
                       <Grid item xs={12}>
                         <TextField required id="Nombre" name="nombre_articulo" label="Nombre de articulo"  />

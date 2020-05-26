@@ -13,6 +13,9 @@ import Divider from '@material-ui/core/Divider';
 import SideMenu from "./SideMenu";
 import {items} from './menuItems.js';
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -87,7 +90,16 @@ function ButtonAppBar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  var loggedIn = false;
+  if(cookies.get("login") && cookies.get("login") != -1){
+    loggedIn = true
+  }
 
+  const logout = () => {
+    console.log("clicked")
+    cookies.set("login",-1)
+    window.location = "/"
+  }
   return (
     <div>
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -98,7 +110,9 @@ function ButtonAppBar() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             INVENTARIO
           </Typography>
-          <Button color="inherit">Logout</Button>
+          { loggedIn &&
+          <Button color="inherit" onClick={logout}>Logout</Button>
+          }
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" classes={{paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),}} open={open}>

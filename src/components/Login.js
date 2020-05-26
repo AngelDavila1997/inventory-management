@@ -19,10 +19,11 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import Cookies from 'universal-cookie';
 
+import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
+console.log(cookies.get("login"))
 if(!cookies.get("login")){
   cookies.set("login",-1)
 }
@@ -52,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
   },
   }));
 
+function reloadOnLoginAttempt(){
+  window.location = "/"
+}
+
 function handleSubmit(event){
   event.preventDefault();
   const json = {};
@@ -66,6 +71,7 @@ function handleSubmit(event){
   })
     .then(response => response.text())
     .then(result => cookies.set("login", result))
+    .then(result => setTimeout(reloadOnLoginAttempt,1000))
 }
 
 

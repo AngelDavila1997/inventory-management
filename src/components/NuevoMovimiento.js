@@ -24,6 +24,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import MaterialTable from 'material-table';
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 var CreoMovimiento = false;
 var index = 0;
 
@@ -108,7 +111,7 @@ function NuevoMovimiento(){
                  <Grid item xs={12}>
                   <Paper elevation={3} className={classes.paper}>
                   <form onSubmit={handleSubmitInside} id="NuevoMovimiento">
-                  <input type="hidden" name="id_usuario" value="1"/>
+                  <input type="hidden" name="id_usuario" value={cookies.get("login")}/>
                         <Typography variant="h6" gutterBottom> Información del movimiento </Typography>
 
                         <Grid item xs={12}>

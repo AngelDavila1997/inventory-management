@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 function handleSubmit(event){
   event.preventDefault();
+  var resp;
   const json = {};
   const data = new FormData(event.target);
   Array.from(data.entries()).forEach(([key, value]) => {
@@ -56,7 +57,9 @@ function handleSubmit(event){
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(json),
-  });
+  })
+    .then(response => (resp = response.text()))
+    .then(alert);
   document.getElementById("NuevoUsuario").reset();
 }
 

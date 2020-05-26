@@ -11,7 +11,7 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 //}
 
 export const items = [
-  { name: "home", label: "Inicio", Icon: HomeIcon, to:"/dash"},
+  { name: "home", label: "Inicio", Icon: HomeIcon, to:"/"},
   "divider",
   {
     name: "articulo",

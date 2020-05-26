@@ -8,6 +8,9 @@ import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import Paper from '@material-ui/core/Paper';
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
     content: {
@@ -62,8 +65,7 @@ function handleSubmit(event){
                   <form onSubmit={handleSubmit} id="AddProvider">
                       <Typography variant="h6" gutterBottom> Información del proveedor </Typography>
 
-                      <input type="hidden" name="id_usuario" value="1"/>
-                      <input type="hidden" name="id_proveedor" value="1"/>
+                      <input type="hidden" name="id_usuario" value={cookies.get("login")}/>
 
                       <Grid item xs={12}>
                         <TextField required id="Nombre" name="nombre" label="Nombre del proveedor"  />
