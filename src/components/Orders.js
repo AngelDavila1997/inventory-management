@@ -83,11 +83,6 @@ class Orders extends Component{
             ))}
           </TableBody>
         </Table>
-        <div>
-          <Link color="primary" href="#" onClick={this.preventDefault}>
-            See more orders
-          </Link>
-        </div>
       </React.Fragment>
     )
   }

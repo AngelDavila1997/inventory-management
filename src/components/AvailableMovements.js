@@ -41,7 +41,7 @@ export default function AvailableProviders() {
                               { title: 'Numero de Movimiento', field: 'num_mov'},
                               { title: 'Tipo de Movimiento', field: 'tipo' , lookup: {'e': 'Entrada', 's': 'Salida'}},
                               { title: 'Descripcion', field: 'descripcion'},
-                              { title: 'Costo', field: 'costo'},
+                              { title: 'Monto', field: 'costo'},
                               { title: 'Responsable', field: 'nombre'},
                             ]}
                             data={query =>

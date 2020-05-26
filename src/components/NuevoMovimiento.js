@@ -161,7 +161,8 @@ function NuevoMovimiento(){
                               })
                             }
                             options={{
-                              search: false
+                              search: false,
+                              actionsColumnIndex: -1
                             }}
                             editable={{
                               onRowAdd: newData =>

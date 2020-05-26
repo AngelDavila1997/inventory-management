@@ -12,6 +12,7 @@ import AvailableMovements from './components/AvailableMovements';
 import InventarioActual from './components/InventarioActual';
 import Login from './components/Login';
 import Resurtir from './components/Resurtir';
+import Inactividad from './components/Inactividad';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import './App.css';
@@ -60,7 +61,7 @@ class App extends Component {
           <Route path="/movements" component={AvailableMovements}/>
           <Route path="/inventoryvalue" component={InventarioActual}/>
           <Route path="/restock" component={Resurtir}/>
-          <Route path="/inactivity" component={Dashboard}/>
+          <Route path="/inactivity" component={Inactividad}/>
           <Route path="/addnewuser" component={NuevoUsuario}/>
           <Route path="/userlist" component={UserList}/>
           <Route path="/test" component={Test}/>
