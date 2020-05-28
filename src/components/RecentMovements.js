@@ -15,14 +15,16 @@ const useStyles = theme => ({
 });
 
 
-class Orders extends Component{
+class RecentMovements extends Component{
   constructor(props){
     super(props);
     this.state = { rows: [] , resp: []};
   }
 
-  createData(sku, nombre_articulo, descripcion, costo, unidad_medida, fecha_alta, id_usuario, id_proveedor) {
-    return {sku, nombre_articulo, descripcion, costo, unidad_medida, fecha_alta, id_usuario, id_proveedor};
+  createData(num_mov, fecha_alta, tipo, costo) {
+    if(tipo == "e") tipo = "Entrada"
+    if(tipo == "s") tipo = "Salida"
+    return {num_mov, fecha_alta, tipo, costo};
   }
 
   fillRows(){
@@ -30,7 +32,7 @@ class Orders extends Component{
     if(this.state.rows.length === 0){
       this.state.resp.data.forEach(data => {
         if(!this.state.rows.includes(data)){
-          temp.push(this.createData(data.sku, data.nombre_articulo, data.descripcion, data.costo, data.unidad_medida, data.fecha_alta, data.id_usuario, data.id_proveedor))
+          temp.push(this.createData(data.num_mov, data.fecha_alta, data.tipo, data.costo))
         }
       });
     }
@@ -42,7 +44,7 @@ class Orders extends Component{
   }
 
   componentDidMount(){
-    fetch("http://localhost:9000/articulos/show")
+    fetch("http://localhost:9000/movimientos/showlimited")
           .then(res => res.json())
           .then(res => this.setState({ resp: res }))
           .then(() => this.fillRows());
@@ -53,31 +55,23 @@ class Orders extends Component{
     const {classes} = this.props;
     return(
       <React.Fragment>
-        <Title>Inventario Actual</Title>
+        <Title>Ultimos Movimientos Realizados</Title>
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>SKU</TableCell>
-              <TableCell>Nombre Articulo</TableCell>
-              <TableCell>Descripcion</TableCell>
-              <TableCell>Costo</TableCell>
-              <TableCell>Unidad de Medida</TableCell>
-              <TableCell>Fecha de Alta</TableCell>
-              <TableCell>Creador</TableCell>
-              <TableCell>Proveedor</TableCell>
+              <TableCell>Numero de Movimiento</TableCell>
+              <TableCell>Fecha</TableCell>
+              <TableCell>Tipo</TableCell>
+              <TableCell>Monto</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {this.state.rows.map((row) => (
-              <TableRow key={row.sku}>
-                <TableCell>{row.sku}</TableCell>
-                <TableCell>{row.nombre_articulo}</TableCell>
-                <TableCell>{row.descripcion}</TableCell>
-                <TableCell>{row.costo}</TableCell>
-                <TableCell>{row.unidad_medida}</TableCell>
+              <TableRow key={row.num_mov}>
+                <TableCell>{row.num_mov}</TableCell>
                 <TableCell>{row.fecha_alta}</TableCell>
-                <TableCell>{row.id_usuario}</TableCell>
-                <TableCell>{row.id_proveedor}</TableCell>
+                <TableCell>{row.tipo}</TableCell>
+                <TableCell>{row.costo}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -87,4 +81,4 @@ class Orders extends Component{
   }
 }
  
-export default withStyles(useStyles)(Orders);
+export default withStyles(useStyles)(RecentMovements);

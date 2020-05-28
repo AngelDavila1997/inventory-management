@@ -23,9 +23,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-console.log(cookies.get("login"))
 if(!cookies.get("login")){
-  cookies.set("login",-1)
+  cookies.set("login",[-1])
 }
 
 const useStyles = makeStyles((theme) => ({

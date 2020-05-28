@@ -5,6 +5,8 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import MaterialTable from 'material-table';
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -35,6 +37,7 @@ export default function AvailableProviders() {
         <Container maxWidth="xl" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
+            {cookies.get('login')[1] == "b" &&
               <MaterialTable
                             title="Movimientos"
                             columns={[
@@ -61,9 +64,16 @@ export default function AvailableProviders() {
                               })
                             }
                             options={{
-                              search: false
+                              search: false,
+                              sorting: false
                             }}
                           />
+            }
+            { cookies.get('login')[1] != "b" &&
+              <Paper elevation={3} className={classes.paper}>
+                No tienes permitido entrar a esta sección
+              </Paper>
+            }
             </Grid>
 
           </Grid>

@@ -20,6 +20,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Cookies from 'universal-cookie';
+import Deposits from './components/Deposits';
 
 const cookies = new Cookies();
 
@@ -73,38 +74,7 @@ function handleSubmit(event){
 function NuevoUsuario(){
     const classes = useStyles();
     return (
-      <div>
-          <div className="root">
-            <main>
-              <div className={classes.appBarSpacer} />
-                <Container maxWidth="xl" className={classes.container}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <Paper elevation={3} className={classes.paper}>
-                        <form onSubmit={handleSubmit} id="NuevoUsuario">
-                          <Typography variant="h6" gutterBottom> Iniciar Sesion </Typography>
-
-                          <Grid item xs={12}>
-                            <TextField required id="Usuario" name="nombre_usuario" label="Usuario"  />
-                          </Grid>
-                          <br />
-                          <Grid item xs={12}>
-                            <TextField required type="password" id="Password" name="contrasena" label="Contraseña"  />
-                          </Grid>
-                          <br />
-                          <Grid item xs={12}>
-                          <Button type="submit" variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />}>
-                            INICIAR SESION
-                          </Button>
-                          </Grid>
-                        </form>
-                      </Paper>
-                    </Grid>
-                  </Grid>
-                </Container>
-              </main>
-            </div>
-          </div>
+      <Deposits/>
     );
 }
 

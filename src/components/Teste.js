@@ -25,7 +25,6 @@ class AvailableArticlesTable extends Component{
     if(this.state.rows.length === 0){
       this.state.resp.data.forEach(data => {
         if(!this.state.rows.includes(data)){
-          console.log(data)
           temp.push(this.createData(data.sku, data.nombre_articulo, data.descripcion, data.costo, data.unidad_medida, data.fecha_alta, data.id_usuario, data.id_proveedor))
         }
       });

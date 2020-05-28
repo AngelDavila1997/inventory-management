@@ -2,8 +2,11 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-//import Paper from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper';
 import InventarioActualTable from './InventarioActualTable';  
+
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -34,10 +37,13 @@ export default function InventarioActual() {
         <Container maxWidth="xl" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              {// <Paper className={classes.paper} elevation={3} className={classes.paper}>
-             }
+              {cookies.get('login')[1] == "b" &&
                 <InventarioActualTable />
-              {//</Paper>
+              }
+              { cookies.get('login')[1] != "b" &&
+                <Paper elevation={3} className={classes.paper}>
+                  No tienes permitido entrar a esta sección
+                </Paper>
               }
             </Grid>
 

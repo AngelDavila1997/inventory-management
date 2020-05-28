@@ -66,7 +66,6 @@ class AvailableArticlesTable extends Component{
   customSearch = (searchQuery, currentRow, columns) => {
     let isFound = false;
     currentRow.forEach(col => {
-      console.log(col.toString())
       if (col.toString().indexOf(searchQuery) >= 0) {
         isFound = true;
       }
@@ -147,7 +146,6 @@ class AvailableArticlesTable extends Component{
       searchText: this.state.searchText,
       onTableChange: (action, tableState) => {
 
-        console.log(action, tableState);
         // a developer could react to change on an action basis or
         // examine the state as a whole and do whatever they want
 
@@ -156,7 +154,6 @@ class AvailableArticlesTable extends Component{
             this.changePage(tableState.page);
             break;
           case 'search':
-            console.log(tableState.currentRow)
             this.customSearch(tableState.searchText, tableState.data, columns)
         }
       }

@@ -24,21 +24,19 @@ import {
 } from "react-router-dom";
 
 import Dashboard from './components/Dashboard';
-import Cookies from 'universal-cookie';
 
+import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 //HOLA PROBANDO
 
 if(!cookies.get("login") || cookies.get("login") == -1){
-  console.log("must login")
   cookies.set("login",-1)
   if (window.location.pathname != "/login")
     window.location = "/login"
 }
 
 if(cookies.get("login") && cookies.get("login") != -1){
-  console.log(cookies.get("login"))
   if (window.location.pathname == "/login")
     window.location = "/"
 }

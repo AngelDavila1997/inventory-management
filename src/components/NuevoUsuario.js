@@ -20,6 +20,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 
+import Cookies from 'universal-cookie';
+
+
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
     content: {
@@ -69,6 +72,7 @@ function NuevoUsuario(){
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const classes = useStyles();
+    const cookies = new Cookies();
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -80,7 +84,6 @@ function NuevoUsuario(){
   
     return (
       <div>
-      class Formulario extends React.Component {
           <div className="root">
             <main>
               <div className={classes.appBarSpacer} />
@@ -88,6 +91,7 @@ function NuevoUsuario(){
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <Paper elevation={3} className={classes.paper}>
+                        { cookies.get('login')[1] == "a" &&
                         <form onSubmit={handleSubmit} id="NuevoUsuario">
                           <Typography variant="h6" gutterBottom> Información del usuario </Typography>
 
@@ -124,14 +128,16 @@ function NuevoUsuario(){
                           </Button>
                           </Grid>
                         </form>
+                        }
+                        { cookies.get('login')[1] != "a" &&
+                        "No tienes permitido entrar a esta sección"
+                        }
                       </Paper>
                     </Grid>
                   </Grid>
                 </Container>
               </main>
             </div>
-
-}
         
         <Dialog
           fullScreen={fullScreen}
@@ -164,4 +170,4 @@ function NuevoUsuario(){
     );
 }
 
-export default withStyles(useStyles)(NuevoUsuario);
+export default NuevoUsuario;

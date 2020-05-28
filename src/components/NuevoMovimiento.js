@@ -92,7 +92,6 @@ function NuevoMovimiento(){
     const handleSubmitInside = (event) => {
       handleSubmit(event)
       .then(()=> setSent(true))
-      .then(() => console.log("then"))
     };
 
     const [articulo, setArticulo] = React.useState('');
@@ -110,8 +109,9 @@ function NuevoMovimiento(){
                 {/*Formulario*/}
                  <Grid item xs={12}>
                   <Paper elevation={3} className={classes.paper}>
+                  { cookies.get('login')[1] != "a" &&
                   <form onSubmit={handleSubmitInside} id="NuevoMovimiento">
-                  <input type="hidden" name="id_usuario" value={cookies.get("login")}/>
+                  <input type="hidden" name="id_usuario" value={cookies.get("login")[0]}/>
                         <Typography variant="h6" gutterBottom> Información del movimiento </Typography>
 
                         <Grid item xs={12}>
@@ -162,7 +162,7 @@ function NuevoMovimiento(){
                             }
                             options={{
                               search: false,
-                              actionsColumnIndex: -1
+                              actionsColumnIndex: -1.
                             }}
                             editable={{
                               onRowAdd: newData =>
@@ -171,7 +171,6 @@ function NuevoMovimiento(){
                                         {
                                           let url = 'http://localhost:9000/movimientos/insertArticulo'
                                           url += '/'+index
-                                          console.log(newData)
 
                                           fetch(url, {
                                             method: 'post',
@@ -188,6 +187,10 @@ function NuevoMovimiento(){
                           }
                         </Grid>
                       </form>
+                      }
+                      { cookies.get('login')[1] == "a" &&
+                        "No tienes permitido entrar a esta sección"
+                      }
                     </Paper>
                   </Grid>
                 </Grid>
@@ -226,4 +229,4 @@ function NuevoMovimiento(){
     );
 }
 
-export default withStyles(useStyles)(NuevoMovimiento);
+export default (NuevoMovimiento);

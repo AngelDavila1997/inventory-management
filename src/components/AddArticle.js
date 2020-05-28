@@ -86,10 +86,11 @@ const useStyles = makeStyles((theme) => ({
           {/*Formulario*/}
             <Grid item xs={12}>
               <Paper elevation={3} className={classes.paper}>
+              { cookies.get('login')[1] == "b" &&
                   <form onSubmit={handleSubmit} id="AddArticle">
                       <Typography variant="h6" gutterBottom> Información de artículo </Typography>
 
-                      <input type="hidden" name="id_usuario" value={cookies.get("login")}/>
+                      <input type="hidden" name="id_usuario" value={cookies.get("login")[0]}/>
 
                       <Grid item xs={12}>
                         <TextField required id="Nombre" name="nombre_articulo" label="Nombre de articulo"  />
@@ -132,6 +133,10 @@ const useStyles = makeStyles((theme) => ({
                         <Button type="submit" variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />}> Añadir </Button>
                       </Grid>
                   </form>
+                  }
+                  { cookies.get('login')[1] != "b" &&
+                    "No tienes permitido entrar a esta sección"
+                  }
               </Paper>
             </Grid>
 

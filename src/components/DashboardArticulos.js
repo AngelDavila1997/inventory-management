@@ -29,7 +29,6 @@ class DashboardArticulos extends Component{
     if(this.state.rows.length === 0){
       this.state.resp.data.forEach(data => {
         if(!this.state.rows.includes(data)){
-          console.log(data)
           temp.push(this.createData(data.nombre_articulo, data.cantidad))
         }
       });

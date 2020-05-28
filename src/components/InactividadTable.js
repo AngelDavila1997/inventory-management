@@ -91,7 +91,8 @@ class InactividadTable extends Component{
     })
   }
   options={{
-    search: false
+    search: false,
+    sorting: false
   }}
 />
   )

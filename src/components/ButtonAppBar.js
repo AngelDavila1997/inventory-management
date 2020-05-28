@@ -96,7 +96,6 @@ function ButtonAppBar() {
   }
 
   const logout = () => {
-    console.log("clicked")
     cookies.set("login",-1)
     window.location = "/"
   }
