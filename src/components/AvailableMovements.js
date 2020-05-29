@@ -49,9 +49,18 @@ export default function AvailableProviders() {
                             ]}
                             data={query =>
                               new Promise((resolve, reject) => {
-                                let url = 'http://localhost:9000/movimientos/show'
-                                url += '/'+(query.page+1)
-                                url += '/'+(query.pageSize)
+                                let url = ""
+                                if(!query.search){
+                                  url = 'http://localhost:9000/movimientos/show'
+                                  url += '/'+(query.page+1)
+                                  url += '/'+(query.pageSize)
+                                } else {
+                                  url = 'http://localhost:9000/movimientos/search'
+                                  url += '/'+(query.page+1)
+                                  url += '/'+(query.pageSize)
+                                  url += '/'+(query.search)
+                                  console.log(query.search)
+                                }
                                 fetch(url)
                                   .then(response => response.json())
                                   .then(result => {
@@ -64,7 +73,6 @@ export default function AvailableProviders() {
                               })
                             }
                             options={{
-                              search: false,
                               sorting: false
                             }}
                           />

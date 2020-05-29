@@ -76,9 +76,18 @@ class InactividadTable extends Component{
   ]}
   data={query =>
     new Promise((resolve, reject) => {
-      let url = 'http://localhost:9000/inactividad/show'
-      url += '/'+(query.page+1)
-      url += '/'+(query.pageSize)
+      let url = 'http://localhost:9000/inactividad'
+      if(!query.search){
+        url += '/show'
+        url += '/'+(query.page+1)
+        url += '/'+(query.pageSize)
+      } else {
+        url += '/search'
+        url += '/'+(query.page+1)
+        url += '/'+(query.pageSize)
+        url += '/'+(query.search)
+        console.log(query.search)
+      }
       fetch(url)
         .then(response => response.json())
         .then(result => {
@@ -91,7 +100,7 @@ class InactividadTable extends Component{
     })
   }
   options={{
-    search: false,
+    search: true,
     sorting: false
   }}
 />

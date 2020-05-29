@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import MUIDataTable from "mui-datatables";
 import { CircularProgress, Typography } from '@material-ui/core';
+import MaterialTable from 'material-table';
 
-
-class InventarioActualTable extends Component{
+class ResurtirTable extends Component{
   
     constructor(props) {
     super(props);
@@ -64,70 +64,47 @@ class InventarioActualTable extends Component{
   };
 
  render() {
-
-    const  columns = [
-      {
-      name: "sku",
-      label: "SKU",
-      options: {
-       filter: true,
-       sort: false
+  return (
+  <MaterialTable
+  title="Resurtir Almacén"
+  columns={[
+    { title: 'SKU', field: 'sku'},
+    { title: 'Artículo', field: 'nombre_articulo' },
+    { title: 'Cantidad en Inventario', field: 'cantidad'},
+    { title: 'Proveedor', field: 'proveedor'},
+  ]}
+  data={query =>
+    new Promise((resolve, reject) => {
+      let url = ""
+      if(!query.search){
+        url = 'http://localhost:9000/resurtir/show'
+        url += '/'+(query.page+1)
+        url += '/'+(query.pageSize)
+      } else {
+        url = 'http://localhost:9000/resurtir/search'
+        url += '/'+(query.page+1)
+        url += '/'+(query.pageSize)
+        url += '/'+(query.search)
+        console.log(query.search)
       }
-     },{
-      name: "nombre_articulo",
-      label: "Articulo",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "cantidad",
-      label: "Cantidad en inventario",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "proveedor",
-      label: "Proveedor",
-      options: {
-       filter: true,
-       sort: false
-      }
-     }
-    ];
-    const { data, page, count, isLoading} = this.state;
-
-    const options = {
-      filter: true,
-      filterType: 'dropdown',
-      responsive: 'stacked',
-      serverSide: true,
-      count: count,
-      page: page,
-      onTableChange: (action, tableState) => {
-
-        // a developer could react to change on an action basis or
-        // examine the state as a whole and do whatever they want
-
-        switch (action) {
-          case 'changePage':
-            this.changePage(tableState.page);
-            break;
-        }
-      }
-    };
-    return (
-      <div>
-        <MUIDataTable title={<Typography>
-          Resurtir Almacén
-          {isLoading && <CircularProgress size={24} style={{marginLeft: 15, position: 'relative', top: 4}} />}
-          </Typography>
-          } data={data} columns={columns} options={options} />
-      </div>
-    );
-
+      fetch(url)
+        .then(response => response.json())
+        .then(result => {
+          resolve({
+            data: result.data,
+            page: result.page-1,
+            totalCount: result.totalCount,
+          })
+        })
+    })
   }
+  options={{
+    search: true,
+    sorting: false
+  }}
+/>
+  )
+}
 }
 
-export default InventarioActualTable;
+export default ResurtirTable;

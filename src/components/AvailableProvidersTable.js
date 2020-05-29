@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MUIDataTable from "mui-datatables";
 import { CircularProgress, Typography } from '@material-ui/core';
-
+import MaterialTable from 'material-table';
 
 class AvailableProvidersTable extends Component{
   
@@ -64,70 +64,47 @@ class AvailableProvidersTable extends Component{
   };
 
  render() {
-
-    const  columns = [
-      {
-      name: "id_proveedor",
-      label: "ID",
-      options: {
-       filter: true,
-       sort: false
+  return (
+  <MaterialTable
+  title="Proveedores Disponibles"
+  columns={[
+    { title: 'ID', field: 'id_proveedor'},
+    { title: 'Nombre', field: 'nombre' },
+    { title: 'Correo', field: 'correo'},
+    { title: 'Teléfono', field: 'telefono'},
+  ]}
+  data={query =>
+    new Promise((resolve, reject) => {
+      let url = 'http://localhost:9000/proveedores'
+      if(!query.search){
+        url += '/show'
+        url += '/'+(query.page+1)
+        url += '/'+(query.pageSize)
+      } else {
+        url += '/search'
+        url += '/'+(query.page+1)
+        url += '/'+(query.pageSize)
+        url += '/'+(query.search)
+        console.log(query.search)
       }
-     },{
-      name: "nombre",
-      label: "Nombre",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "correo",
-      label: "Correo",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "telefono",
-      label: "Telefono",
-      options: {
-       filter: true,
-       sort: false
-      }
-     }
-    ];
-    const { data, page, count, isLoading} = this.state;
-
-    const options = {
-      filter: true,
-      filterType: 'dropdown',
-      responsive: 'stacked',
-      serverSide: true,
-      count: count,
-      page: page,
-      onTableChange: (action, tableState) => {
-
-        // a developer could react to change on an action basis or
-        // examine the state as a whole and do whatever they want
-
-        switch (action) {
-          case 'changePage':
-            this.changePage(tableState.page);
-            break;
-        }
-      }
-    };
-    return (
-      <div>
-        <MUIDataTable title={<Typography>
-          Proveedores Disponibles
-          {isLoading && <CircularProgress size={24} style={{marginLeft: 15, position: 'relative', top: 4}} />}
-          </Typography>
-          } data={data} columns={columns} options={options} />
-      </div>
-    );
-
+      fetch(url)
+        .then(response => response.json())
+        .then(result => {
+          resolve({
+            data: result.data,
+            page: result.page-1,
+            totalCount: result.totalCount,
+          })
+        })
+    })
   }
+  options={{
+    search: true,
+    sorting: false
+  }}
+/>
+  )
+}
 }
 
 export default AvailableProvidersTable;

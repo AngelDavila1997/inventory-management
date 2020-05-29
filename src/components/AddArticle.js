@@ -18,7 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-var loading = true;
+
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
     content: {
@@ -73,10 +73,6 @@ const useStyles = makeStyles((theme) => ({
       })
     }
 
-    if(loading){
-      loading = false
-      getProviders()
-    }
     return (
       <div className="root">
         <main>
@@ -107,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
                       <Grid item xs={12}>
                       <FormLabel component="legend">Proveedor</FormLabel>
                         <Select required id="Proveedor" name="id_proveedor" label="Proveedor" >
+                          {!loadedProviders && getProviders()}
                           {loadedProviders && 
                           providers.map((provider) => <MenuItem value= {provider.id_proveedor} > {provider.nombre} </MenuItem>)}
                         </Select>

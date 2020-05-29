@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import MUIDataTable from "mui-datatables";
 import { CircularProgress, Typography } from '@material-ui/core';
+import MaterialTable from 'material-table';
 
-
-class AvailableArticlesTable extends Component{
+class AvailableArticlesTable
+ extends Component{
   
     constructor(props) {
     super(props);
     this.state = {
-      articulos: [],
+      proveedores: [],
       isLoading: false,
       page: 0,
       count: 1,
-      searchText: "",
     };
   }
   state = {
@@ -20,7 +20,6 @@ class AvailableArticlesTable extends Component{
     count: 1,
     data: [["Loading Data..."]],
     isLoading: false,
-    searchText: "",
   };
  componentDidMount() {
     this.getData(this.state.page);
@@ -28,6 +27,7 @@ class AvailableArticlesTable extends Component{
 
 
   xhrRequest = (url) => {
+
     return new Promise((resolve, reject) => {
       fetch(url)
         .then(response => response.json())
@@ -45,7 +45,8 @@ class AvailableArticlesTable extends Component{
   // get data
   getData = (page) => {
     this.setState({ isLoading: true });
-    this.xhrRequest(`http://localhost:9000/articulos/show/${page}`).then(res => {
+    this.xhrRequest(`http://localhost:9000/articulos
+/show/${page}`).then(res => {
       this.setState({ data: res.data, isLoading: false, count: res.total });
     });
   }
@@ -54,7 +55,8 @@ class AvailableArticlesTable extends Component{
     this.setState({
       isLoading: true,
     });
-    this.xhrRequest(`http://localhost:9000/articulos/show/${page}`).then(res => {
+    this.xhrRequest(`http://localhost:9000/articulos
+/show/${page}`).then(res => {
       this.setState({
         isLoading: false,
         page: page,
@@ -63,112 +65,54 @@ class AvailableArticlesTable extends Component{
       });
     });
   };
-  customSearch = (searchQuery, currentRow, columns) => {
-    let isFound = false;
-    currentRow.forEach(col => {
-      if (col.toString().indexOf(searchQuery) >= 0) {
-        isFound = true;
-      }
-    });
-    return isFound;
-  }
 
  render() {
-
-    const  columns = [
-      {
-      name: "sku",
-      label: "SKU",
-      options: {
-       filter: true,
-       sort: false
+  return (
+  <MaterialTable
+  title="Artículos Disponibles"
+  columns={[
+    { title: 'SKU', field: 'sku'},
+    { title: 'Nombre Articulo', field: 'nombre_articulo'},
+    { title: 'Descripción', field: 'descripcion'},
+    { title: 'Costo', field: 'costo' },
+    { title: 'Unidad de Medida', field: 'unidad_medida' },
+    { title: 'Fecha de Alta', field: 'fecha_alta', type: 'date'},
+    { title: 'Creador', field: 'nombre_usuario'},
+    { title: 'Proveedor', field: 'nombre_proveedor'},
+  ]}
+  data={query =>
+    new Promise((resolve, reject) => {
+      let url = 'http://localhost:9000/articulos'
+      if(!query.search){
+        url += '/show'
+        url += '/'+(query.page+1)
+        url += '/'+(query.pageSize)
+      } else {
+        url += '/search'
+        url += '/'+(query.page+1)
+        url += '/'+(query.pageSize)
+        url += '/'+(query.search)
+        console.log(query.search)
       }
-     },{
-      name: "nombre_articulo",
-      label: "Nombre Articulo",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "descripcion",
-      label: "Descripción",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "costo",
-      label: "Costo",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "unidad_medida",
-      label: "Unidad de Medida",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "fecha_alta",
-      label: "Fecha de alta",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "id_usuario",
-      label: "Creador",
-      options: {
-       filter: true,
-       sort: false
-      }
-     },{
-      name: "id_proveedor",
-      label: "Proveedor",
-      options: {
-       filter: true,
-       sort: false
-      }
-     }
-    ];
-    const { data, page, count, isLoading} = this.state;
-
-    const options = {
-      filter: true,
-      filterType: 'dropdown',
-      responsive: 'stacked',
-      serverSide: true,
-      count: count,
-      page: page,
-      searchText: this.state.searchText,
-      onTableChange: (action, tableState) => {
-
-        // a developer could react to change on an action basis or
-        // examine the state as a whole and do whatever they want
-
-        switch (action) {
-          case 'changePage':
-            this.changePage(tableState.page);
-            break;
-          case 'search':
-            this.customSearch(tableState.searchText, tableState.data, columns)
-        }
-      }
-    };
-    return (
-      <div>
-        <MUIDataTable title={<Typography>
-          Artículos Disponibles
-          {isLoading && <CircularProgress size={24} style={{marginLeft: 15, position: 'relative', top: 4}} />}
-          </Typography>
-          } data={data} columns={columns} options={options} />
-      </div>
-    );
-
+      fetch(url)
+        .then(response => response.json())
+        .then(result => {
+          resolve({
+            data: result.data,
+            page: result.page-1,
+            totalCount: result.totalCount,
+          })
+        })
+    })
   }
+  options={{
+    search: true,
+    sorting: false
+  }}
+/>
+  )
 }
+}
+
 
 export default AvailableArticlesTable;
