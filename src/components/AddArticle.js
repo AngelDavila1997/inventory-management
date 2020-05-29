@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
                       <br />
                       <Grid item xs={12}>
                         <FormLabel component="legend">Unidad de medida </FormLabel>
-                          <RadioGroup aria-label="unidad" name="unidad_medida" id="unidad_medida">
+                          <RadioGroup aria-label="unidad" name="unidad_medida" defaultValue="pz" id="unidad_medida">
                             <FormControlLabel value="pz" control={<Radio />} label="Pieza" />
                             <FormControlLabel value="lt" control={<Radio />} label="Lt" />
                             <FormControlLabel value="ot" control={<Radio />} label="Otro" />
